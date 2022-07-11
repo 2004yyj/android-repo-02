@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="customTextViewFontStyle" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/outfit</item>
+    </style>
+
+    <style name="customEditTextFontStyle" parent="Widget.AppCompat.EditText">
+        <item name="fontFamily">@font/outfit</item>
+    </style>
+
+    <style name="customButtonFontStyle" parent="Widget.AppCompat.Button">
+        <item name="fontFamily">@font/outfit</item>
+    </style>
+
+    <style name="customRadioButtonFontStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="fontFamily">@font/outfit</item>
+    </style>
+
+    <style name="customCheckBoxFontStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="fontFamily">@font/outfit</item>
+    </style>
+</resources>
