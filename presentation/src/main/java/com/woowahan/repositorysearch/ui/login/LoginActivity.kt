@@ -47,9 +47,8 @@ class LoginActivity : AppCompatActivity() {
             viewModel.viewModelScope.launch {
                 try {
                     val token = viewModel.getAccessToken(code)
-                    GitToken.token = token.token
+                    GitToken.token = "$${token.type} ${token.token}"
                     GitToken.scope = token.scope
-                    GitToken.type = token.type
 
                     val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
                     mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
