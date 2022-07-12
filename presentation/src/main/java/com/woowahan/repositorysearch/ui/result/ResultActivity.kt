@@ -17,11 +17,38 @@ import java.io.Serializable
 class ResultActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityResultBinding.inflate(layoutInflater) }
+    private val viewModel: ResultViewModel by viewModels()
+    private lateinit var fragmentContainerView: FragmentContainerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
 
+        fragmentContainerView = binding.fragmentContainerView
+        val fragmentManager = supportFragmentManager
+
+        when(intent.getSerializableExtra(START_FRAGMENT_NAME) as PageName) {
+            is PageName.Profile -> {
+                val login = intent.getStringExtra(LOGIN_VALUE)
+                viewModel.setPageName(PageName.Profile.javaClass.simpleName)
+                fragmentManager.replace(
+                    ProfileFragment::class.java,
+                    fragmentContainerView.id,
+                    ProfileFragment.TAG,
+                    bundleOf(LOGIN_VALUE to login)
+                )
+            }
+            is PageName.Search -> {
+                viewModel.setPageName(PageName.Search.javaClass.simpleName)
+                fragmentManager.replace(
+                    SearchFragment::class.java,
+                    fragmentContainerView.id,
+                    SearchFragment.TAG
+                )
+            }
+        }
     }
 
     companion object {
