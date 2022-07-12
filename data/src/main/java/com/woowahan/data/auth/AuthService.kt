@@ -9,7 +9,7 @@ import retrofit2.http.POST
 
 interface AuthService {
     @FormUrlEncoded
-    @POST
+    @POST("/login/oauth/access_token")
     @Headers("Accept: application/json")
     suspend fun getAccessToken(
         @Field("client_id") clientId: String,

@@ -18,7 +18,6 @@ object RetrofitModule {
     @Singleton
     fun provideAuthOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(TokenInterceptor())
             .build()
     }
 
@@ -26,7 +25,7 @@ object RetrofitModule {
     @Singleton
     fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl("https://github.com")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

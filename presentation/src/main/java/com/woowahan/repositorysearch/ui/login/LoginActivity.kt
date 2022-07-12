@@ -7,9 +7,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.viewModelScope
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val viewModel by viewModels<LoginViewModel>()
@@ -28,6 +32,16 @@ class LoginActivity : AppCompatActivity() {
 
             CustomTabsIntent.Builder().build().also {
                 it.launchUrl(this, loginUrl)
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.data?.getQueryParameter("code")?.let { code ->
+            viewModel.viewModelScope.launch {
+                val token = viewModel.getAccessToken(code)
+                print(token)
             }
         }
     }
