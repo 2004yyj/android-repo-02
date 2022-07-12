@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RepositorySearch</string>
+    <string name="search">검색</string>
+    <string name="me">나</string>
+    <string name="main_title">What\'s In My Github</string>
+    <string name="search_eng">Search</string>
+    <string name="profile_eng">Profile</string>
 </resources>

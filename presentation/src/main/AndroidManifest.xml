@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.woowahan.repositorysearch">
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,6 +19,12 @@
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:launchMode="singleTask">
+        <activity
+            android:name=".ui.result.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
