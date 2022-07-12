@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.model.GitToken
 import com.woowahan.repositorysearch.BuildConfig
@@ -27,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
+        binding.lifecycleOwner = this
+
         binding.loginButton.setOnClickListener {
             val loginUrl = Uri.Builder().scheme("https").authority("github.com")
                 .appendPath("login")
@@ -39,24 +42,22 @@ class LoginActivity : AppCompatActivity() {
                 it.launchUrl(this, loginUrl)
             }
         }
+
+        viewModel.isSuccess.observe(this, Observer { result ->
+            if (result == viewModel.SUCCESS) {
+                val mainIntent = Intent(this, MainActivity::class.java)
+                mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(mainIntent)
+            } else {
+                Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.data?.getQueryParameter("code")?.let { code ->
-            viewModel.viewModelScope.launch {
-                try {
-                    val token = viewModel.getAccessToken(code)
-                    GitToken.token = "$${token.type} ${token.token}"
-                    GitToken.scope = token.scope
-
-                    val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                    mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    startActivity(mainIntent)
-                } catch (e: Exception) {
-                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_SHORT).show()
-                }
-            }
+            viewModel.getAccessToken(code)
         }
     }
 }
