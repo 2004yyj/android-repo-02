@@ -31,7 +31,7 @@
 
                 <data
                     android:host="github-auth"
-                    android:scheme="repository_search" />
+                    android:scheme="rs" />
             </intent-filter>
         </activity>
         <activity
