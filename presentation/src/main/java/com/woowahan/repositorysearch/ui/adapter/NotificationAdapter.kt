@@ -11,7 +11,7 @@ import com.woowahan.repositorysearch.databinding.NotificationItemBinding
 
 class NotificationAdapter :
     ListAdapter<Notification, NotificationAdapter.NotificationViewHolder>(diffUtil) {
-    private val currentList = ArrayList<Notification>()
+    val notifications = ArrayList<Notification>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         //미리 만들어진 뷰홀더가 없는 경우 새로 생성하는 함수(레이아웃 생성)
@@ -26,7 +26,7 @@ class NotificationAdapter :
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         //실제로 뷰홀더가 뷰에 그려졌을때 데이터를 뿌려주는 바인드해주는 함수(뷰홀더가 재활용될때 실행)
-        holder.bind(currentList[position])
+        holder.bind(notifications[position])
     }
 
     inner class NotificationViewHolder(private val binding: NotificationItemBinding) :

@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
+import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 
 class NotificationFragment : Fragment() {
-
     private lateinit var binding: FragmentNotificationBinding
+    private val notificationAdapter = NotificationAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
