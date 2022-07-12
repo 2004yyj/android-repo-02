@@ -31,6 +31,7 @@ fun <T: Fragment> FragmentManager.replace(fragmentName: Class<T>, containerViewI
         val constructor: Constructor<T> = fragmentName.getConstructor()
         val fragment: Fragment = constructor.newInstance()
         replace(containerViewId, fragment, tag)
+        addToBackStack(tag)
         commit()
     }
 }
@@ -41,6 +42,17 @@ fun <T: Fragment> FragmentManager.replace(fragmentName: Class<T>, containerViewI
         val constructor: Constructor<T> = fragmentName.getConstructor(Bundle::class.java)
         val fragment: Fragment = constructor.newInstance(bundle)
         replace(containerViewId, fragment, tag)
+        addToBackStack(tag)
         commit()
+    }
+}
+
+fun FragmentManager.onBackPressed(finishActivity: () -> Unit) {
+    this.beginTransaction().apply {
+        if (backStackEntryCount > 1) {
+            popBackStack()
+        } else {
+            finishActivity()
+        }
     }
 }
