@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.viewModelScope
+import com.woowahan.repositorysearch.BuildConfig
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
                 .appendPath("login")
                 .appendPath("oauth")
                 .appendPath("authorize")
-                .appendQueryParameter("client_id", "21e566da1e2ebde399b4")
+                .appendQueryParameter("client_id", BuildConfig.CLIENT_ID)
                 .build()
 
             CustomTabsIntent.Builder().build().also {

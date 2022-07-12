@@ -3,6 +3,7 @@ package com.woowahan.repositorysearch.ui.login
 import androidx.lifecycle.ViewModel
 import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.model.GitHubToken
+import com.woowahan.repositorysearch.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -12,8 +13,8 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     suspend fun getAccessToken(code: String): GitHubToken {
         return getGitHubAccessTokenUseCase.execute(
-            clientId = "",
-            clientSecret = "",
+            clientId = BuildConfig.CLIENT_ID,
+            clientSecret = BuildConfig.CLIENT_SECRET,
             code = code
         )
 
