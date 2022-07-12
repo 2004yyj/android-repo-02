@@ -1,12 +1,23 @@
 package com.woowahan.data.auth
 
+import com.woowahan.domain.model.GitHubToken
 import com.woowahan.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authService: AuthService
+    private val authDataSourceImpl: AuthDataSourceImpl
 ) : AuthRepository {
-    override suspend fun getAccessToken(clientId: String, clientSecret: String, code: String) {
-        TODO("Not yet implemented")
+    override suspend fun getAccessToken(
+        clientId: String,
+        clientSecret: String,
+        code: String
+    ): GitHubToken {
+        val gitHubTokenData = authDataSourceImpl.getAccessToken(clientId, clientSecret, code)
+        val gitHubToken = GitHubToken()
+        gitHubToken.token = gitHubTokenData.token
+        gitHubToken.scope = gitHubTokenData.scope
+        gitHubToken.type = gitHubTokenData.type
+
+        return gitHubToken
     }
 }

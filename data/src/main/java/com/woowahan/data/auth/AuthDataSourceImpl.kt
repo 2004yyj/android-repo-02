@@ -9,7 +9,5 @@ class AuthDataSourceImpl(override val service: AuthService) : BaseDataSource<Aut
         clientId: String,
         clientSecret: String,
         code: String
-    ): GitHubTokenData {
-        return getData(service.getAccessToken(clientId, clientSecret, code))
-    }
+    ): GitHubTokenData = getData(service.getAccessToken(clientId, clientSecret, code))
 }
