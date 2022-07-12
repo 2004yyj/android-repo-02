@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
-
+class ProfileFragment(bundle: Bundle) : Fragment() {
+    init { arguments = bundle }
     private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
