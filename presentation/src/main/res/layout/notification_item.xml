@@ -19,7 +19,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/repositoryIssueTextView"
+            android:id="@+id/repositoryNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="@id/userIconLayout" />
 
         <TextView
-            android:id="@+id/notificationContent"
+            android:id="@+id/notificationTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -54,9 +54,9 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintLeft_toLeftOf="@id/repositoryIssueTextView"
+            app:layout_constraintLeft_toLeftOf="@id/repositoryNameTextView"
             app:layout_constraintRight_toLeftOf="@id/commentCardView"
-            app:layout_constraintTop_toBottomOf="@id/repositoryIssueTextView" />
+            app:layout_constraintTop_toBottomOf="@id/repositoryNameTextView" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/commentCardView"
@@ -66,7 +66,7 @@
             android:minWidth="24dp"
             app:cardCornerRadius="3dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/notificationContent">
+            app:layout_constraintTop_toTopOf="@id/notificationTitle">
 
             <TextView
                 android:id="@+id/commentCntTextView"
