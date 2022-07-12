@@ -1,6 +1,6 @@
 package com.woowahan.data.auth
 
-import com.woowahan.data.entity.GitHubToken
+import com.woowahan.data.entity.GitHubTokenData
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -15,5 +15,5 @@ interface AuthService {
         @Field("client_id") clientId: String,
         @Field("client_secret") clientSecret: String,
         @Field("code") code: String
-    ): Response<GitHubToken>
+    ): Response<GitHubTokenData>
 }

@@ -1,6 +1,5 @@
 package com.woowahan.repositorysearch.di.module
 
-import com.woowahan.data.auth.AuthDataSource
 import com.woowahan.data.auth.AuthDataSourceImpl
 import com.woowahan.data.auth.AuthService
 import dagger.Module
@@ -14,7 +13,7 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    fun provideAuthDataSource(authService: AuthService): AuthDataSource {
+    fun provideAuthDataSource(authService: AuthService): AuthDataSourceImpl {
         return AuthDataSourceImpl(authService)
     }
 }

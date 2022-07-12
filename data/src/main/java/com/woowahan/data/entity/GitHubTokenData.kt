@@ -2,7 +2,7 @@ package com.woowahan.data.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class GitHubToken(
+data class GitHubTokenData(
     @SerializedName("access_token")
     val token: String,
     @SerializedName("scope")

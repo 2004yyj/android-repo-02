@@ -1,12 +1,15 @@
 package com.woowahan.data.auth
 
-import com.woowahan.data.entity.GitHubToken
+import com.woowahan.data.base.BaseDataSource
+import com.woowahan.data.entity.GitHubTokenData
 import retrofit2.Response
 
-class AuthDataSourceImpl(private val authService: AuthService) : AuthDataSource {
-    override suspend fun getAccessToken(
+class AuthDataSourceImpl(override val service: AuthService) : BaseDataSource<AuthService>() {
+    suspend fun getAccessToken(
         clientId: String,
         clientSecret: String,
         code: String
-    ): Response<GitHubToken> = authService.getAccessToken(clientId, clientSecret, code)
+    ): GitHubTokenData {
+        return getData(service.getAccessToken(clientId, clientSecret, code))
+    }
 }
