@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.woowahan.domain.model.Notification
+import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
+import com.woowahan.repositorysearch.ui.main.NotificationDivider
+import com.woowahan.repositorysearch.util.Dp2Px
 
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
@@ -26,6 +30,14 @@ class NotificationFragment : Fragment() {
 
         binding.notificationRecyclerView.adapter = notificationAdapter
         notificationAdapter.submitList(getDummy())
+
+        val customDecoration =
+            NotificationDivider(
+                Dp2Px.convert(requireContext(), 1F),
+                Dp2Px.convert(requireContext(), 24F),
+                ContextCompat.getColor(requireContext(), R.color.navy)
+            )
+        binding.notificationRecyclerView.addItemDecoration(customDecoration)
     }
 
     private fun getDummy(): List<Notification> {
