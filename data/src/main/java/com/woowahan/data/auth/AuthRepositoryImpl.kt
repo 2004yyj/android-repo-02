@@ -13,11 +13,6 @@ class AuthRepositoryImpl @Inject constructor(
         code: String
     ): GitHubToken {
         val gitHubTokenData = authDataSourceImpl.getAccessToken(clientId, clientSecret, code)
-        val gitHubToken = GitHubToken()
-        gitHubToken.token = gitHubTokenData.token
-        gitHubToken.scope = gitHubTokenData.scope
-        gitHubToken.type = gitHubTokenData.type
-
-        return gitHubToken
+        return GitHubToken(gitHubTokenData.token, gitHubTokenData.type, gitHubTokenData.scope)
     }
 }
