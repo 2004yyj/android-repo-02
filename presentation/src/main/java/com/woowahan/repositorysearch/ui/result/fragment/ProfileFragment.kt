@@ -20,4 +20,8 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater)
         return binding.root
     }
+
+    companion object {
+        val TAG = "ProfileFragment"
+    }
 }

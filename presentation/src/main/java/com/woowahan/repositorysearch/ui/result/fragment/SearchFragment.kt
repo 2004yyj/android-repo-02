@@ -20,4 +20,8 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(inflater)
         return binding.root
     }
+
+    companion object {
+        val TAG = "SearchFragment"
+    }
 }
