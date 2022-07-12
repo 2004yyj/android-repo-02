@@ -1,7 +1,7 @@
 package com.woowahan.domain.model
 
-class GitHubToken {
-    var token = ""
-    var type = ""
-    var scope = ""
-}
+data class GitHubToken(
+    val token: String,
+    val type: String,
+    val scope: String
+)
