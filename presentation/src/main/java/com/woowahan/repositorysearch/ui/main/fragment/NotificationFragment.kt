@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 
@@ -24,5 +25,16 @@ class NotificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.notificationRecyclerView.adapter = notificationAdapter
+        notificationAdapter.submitList(getDummy())
+    }
+
+    private fun getDummy(): List<Notification> {
+        val list = ArrayList<Notification>()
+
+        for (i in 1..10) {
+            val item = Notification(0, "test$i", "${i}일 전", "repository #$i", i, "")
+            list.add(item)
+        }
+        return list
     }
 }
