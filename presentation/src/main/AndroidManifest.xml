@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.woowahan.repositorysearch">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".di.application.DaggerApplication"
         android:allowBackup="true"
