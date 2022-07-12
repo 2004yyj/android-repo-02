@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentContainerView
 import com.woowahan.repositorysearch.databinding.ActivityResultBinding
 import com.woowahan.repositorysearch.ui.result.fragment.ProfileFragment
 import com.woowahan.repositorysearch.ui.result.fragment.SearchFragment
+import com.woowahan.repositorysearch.util.add
+import com.woowahan.repositorysearch.util.onBackPressed
 import com.woowahan.repositorysearch.util.replace
 import java.io.Serializable
 
@@ -19,6 +22,7 @@ class ResultActivity : AppCompatActivity() {
     private val binding by lazy { ActivityResultBinding.inflate(layoutInflater) }
     private val viewModel: ResultViewModel by viewModels()
     private lateinit var fragmentContainerView: FragmentContainerView
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +31,13 @@ class ResultActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         fragmentContainerView = binding.fragmentContainerView
+        toolbar = binding.toolbar
+
         val fragmentManager = supportFragmentManager
 
         when(intent.getSerializableExtra(START_FRAGMENT_NAME) as PageName) {
             is PageName.Profile -> {
                 val login = intent.getStringExtra(LOGIN_VALUE)
-                viewModel.setPageName(PageName.Profile.javaClass.simpleName)
                 fragmentManager.replace(
                     ProfileFragment::class.java,
                     fragmentContainerView.id,
@@ -41,12 +46,17 @@ class ResultActivity : AppCompatActivity() {
                 )
             }
             is PageName.Search -> {
-                viewModel.setPageName(PageName.Search.javaClass.simpleName)
                 fragmentManager.replace(
                     SearchFragment::class.java,
                     fragmentContainerView.id,
                     SearchFragment.TAG
                 )
+            }
+        }
+
+        toolbar.setNavigationOnClickListener {
+            fragmentManager.onBackPressed {
+                finish()
             }
         }
     }
@@ -74,5 +84,14 @@ class ResultActivity : AppCompatActivity() {
     sealed class PageName: Serializable {
         object Profile : PageName()
         object Search: PageName()
+    }
+
+    override fun onBackPressed() {
+        val fragmentManager = supportFragmentManager
+            with(fragmentManager) {
+                onBackPressed {
+                    finish()
+                }
+            }
     }
 }
