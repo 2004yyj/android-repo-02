@@ -8,5 +8,5 @@ import retrofit2.http.Headers
 interface NotificationService {
     @GET("/notifications")
     @Headers("Accept: application/vnd.github+json")
-    suspend fun getNotifications(): Response<NotificationData>
+    suspend fun getNotifications(): Response<List<NotificationData>>
 }

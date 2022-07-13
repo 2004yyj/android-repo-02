@@ -17,6 +17,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase
 ) : ViewModel() {
+
     fun getNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
             getNotificationsUseCase.execute()
