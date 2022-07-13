@@ -20,7 +20,8 @@ class MainViewModel @Inject constructor(
 
     fun getNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
-            getNotificationsUseCase.execute()
+            val test = getNotificationsUseCase.execute()
+            print(test)
         }
     }
 }

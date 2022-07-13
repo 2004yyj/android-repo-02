@@ -6,16 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
+import com.woowahan.repositorysearch.ui.main.MainViewModel
 import com.woowahan.repositorysearch.ui.main.NotificationDivider
 import com.woowahan.repositorysearch.util.Dp2Px
 
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
     private val notificationAdapter = NotificationAdapter()
+
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +33,6 @@ class NotificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.notificationRecyclerView.adapter = notificationAdapter
-        notificationAdapter.submitList(getDummy())
 
         val customDecoration =
             NotificationDivider(
@@ -38,15 +41,7 @@ class NotificationFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
         binding.notificationRecyclerView.addItemDecoration(customDecoration)
-    }
 
-    private fun getDummy(): List<Notification> {
-        val list = ArrayList<Notification>()
-
-        for (i in 1..10) {
-            val item = Notification(0, "test$i", "${i}일 전", "repository #$i", i, "")
-            list.add(item)
-        }
-        return list
+        viewModel.getNotifications()
     }
 }
