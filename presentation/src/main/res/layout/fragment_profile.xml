@@ -8,7 +8,7 @@
     tools:context=".ui.result.fragment.ProfileFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cv_user_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="100dp"
@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/iv_user_icon"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
@@ -30,8 +31,8 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:layout_constraintStart_toEndOf="@+id/cv_user_icon"
+        app:layout_constraintTop_toTopOf="@+id/cv_user_icon"
         tools:text="멋진 삼" />
 
     <TextView
