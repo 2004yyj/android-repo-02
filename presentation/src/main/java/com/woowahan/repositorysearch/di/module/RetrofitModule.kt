@@ -24,8 +24,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @typeAuth
-    fun provideAuthOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
@@ -34,7 +33,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     @typeAuth
-    fun provideAuthRetrofit(@typeAuth okHttpClient: OkHttpClient): Retrofit {
+    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://github.com")
             .addConverterFactory(GsonConverterFactory.create())
