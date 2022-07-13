@@ -13,7 +13,8 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    fun provideAuthDataSource(authService: AuthService): AuthDataSourceImpl {
+    @RetrofitModule.typeAuth
+    fun provideAuthDataSource(@RetrofitModule.typeAuth authService: AuthService): AuthDataSourceImpl {
         return AuthDataSourceImpl(authService)
     }
 }
