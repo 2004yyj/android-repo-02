@@ -7,5 +7,6 @@ data class NotificationData(
     val reason: String,
     val unread: Boolean,
     val updatedAt: String,
-    val commentsUrl: String
+    val commentsUrl: String,
+    val repository: RepositoryData
 )
