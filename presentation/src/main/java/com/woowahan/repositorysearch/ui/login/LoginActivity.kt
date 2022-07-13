@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
                 .appendPath("oauth")
                 .appendPath("authorize")
                 .appendQueryParameter("client_id", BuildConfig.CLIENT_ID)
+                .appendQueryParameter("scope", "repo,notifications,user")
                 .build()
 
             CustomTabsIntent.Builder().build().also {
