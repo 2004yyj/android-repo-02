@@ -40,4 +40,15 @@ object RetrofitModule {
             .client(okHttpClient)
             .build()
     }
+
+    @Provides
+    @Singleton
+    @typeApi
+    fun provideApiRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.github.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+    }
 }
