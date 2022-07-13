@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
@@ -14,7 +15,9 @@ import com.woowahan.repositorysearch.databinding.ActivityMainBinding
 import com.woowahan.repositorysearch.ui.adapter.ViewPagerAdapter
 import com.woowahan.repositorysearch.ui.main.fragment.IssueFragment
 import com.woowahan.repositorysearch.ui.main.fragment.NotificationFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val tabText = arrayOf("Issue", "Notification")
@@ -24,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userIconActionView: View
     private lateinit var searchMenu: MenuItem
     private lateinit var viewPagerAdapter: ViewPagerAdapter
+
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
