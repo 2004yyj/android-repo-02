@@ -1,6 +1,7 @@
 package com.woowahan.repositorysearch.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -9,11 +10,13 @@ import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.woowahan.domain.model.GitToken
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.ActivityMainBinding
 import com.woowahan.repositorysearch.ui.adapter.ViewPagerAdapter
 import com.woowahan.repositorysearch.ui.main.fragment.IssueFragment
 import com.woowahan.repositorysearch.ui.main.fragment.NotificationFragment
+import com.woowahan.repositorysearch.ui.result.ResultActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,6 +60,8 @@ class MainActivity : AppCompatActivity() {
     private fun initListener() {
         userIconActionView.setOnClickListener {
             // 사용자 아이콘 클릭 시
+            val intent = ResultActivity.getIntent(this, ResultActivity.PageName.Profile, "2004yyj")
+            startActivity(intent)
         }
 
         searchMenu.setOnMenuItemClickListener {
