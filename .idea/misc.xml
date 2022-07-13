@@ -4,12 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/activity_login.xml" value="0.12685185185185185" />
+<<<<<<< HEAD
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/activity_main.xml" value="0.15391192817443353" />
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/fragment_issue.xml" value="0.30055579307396324" />
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/fragment_notification.xml" value="0.44862795149968093" />
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/menu_item_user_icon.xml" value="0.1875" />
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/notification_item.xml" value="0.33" />
         <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/menu/menu_toolbar_main.xml" value="0.15391192817443353" />
+=======
+        <entry key="..\:/Users/Youngmu/Desktop/woowahan/android-repo-02/presentation/src/main/res/layout/activity_main.xml" value="0.14688675302966986" />
+>>>>>>> origin/refactor/27-type-annotation
         <entry key="presentation/src/main/res/drawable/bg_gradient.xml" value="0.3225" />
         <entry key="presentation/src/main/res/drawable/box_large_button.xml" value="0.3225" />
         <entry key="presentation/src/main/res/font/outfit.xml" value="0.35" />

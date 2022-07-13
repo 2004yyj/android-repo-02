@@ -13,7 +13,8 @@ import javax.inject.Singleton
 object UseCaseModule {
     @Singleton
     @Provides
-    fun provideGetGitHubAccessTokenUseCase(repository: AuthRepository): GetGitHubAccessTokenUseCase {
+    @RetrofitModule.typeAuth
+    fun provideGetGitHubAccessTokenUseCase(@RetrofitModule.typeAuth repository: AuthRepository): GetGitHubAccessTokenUseCase {
         return GetGitHubAccessTokenUseCase(repository)
     }
 }

@@ -14,6 +14,7 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Singleton
     @Provides
-    fun provideAuthRepository(authDataSourceImpl: AuthDataSourceImpl): AuthRepository =
+    @RetrofitModule.typeAuth
+    fun provideAuthRepository(@RetrofitModule.typeAuth authDataSourceImpl: AuthDataSourceImpl): AuthRepository =
         AuthRepositoryImpl(authDataSourceImpl)
 }

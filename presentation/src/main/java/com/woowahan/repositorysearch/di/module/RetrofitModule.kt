@@ -1,6 +1,5 @@
 package com.woowahan.repositorysearch.di.module
 
-import com.woowahan.repositorysearch.util.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +14,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class typeAuth
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class typeApi
+
     @Provides
     @Singleton
+    @typeAuth
     fun provideAuthOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -25,7 +33,8 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @typeAuth
+    fun provideAuthRetrofit(@typeAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://github.com")
             .addConverterFactory(GsonConverterFactory.create())
