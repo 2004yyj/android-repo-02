@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.databinding.NotificationItemBinding
+import com.woowahan.repositorysearch.util.TimeFormatter
 
 class NotificationAdapter :
     ListAdapter<Notification, NotificationAdapter.NotificationViewHolder>(diffUtil) {
@@ -34,7 +35,7 @@ class NotificationAdapter :
         fun bind(notification: Notification) {
             binding.notificationTitle.text = notification.title
             binding.commentCntTextView.text = notification.commentCnt.toString()
-            binding.recentUpdateTextView.text = notification.lastUpdate
+            binding.recentUpdateTextView.text = TimeFormatter.toRelativeTime(notification.lastUpdate)
             binding.repositoryNameTextView.text = notification.repository
             binding.userIconLayout.ivUserIcon.load(notification.profileUrl)
         }

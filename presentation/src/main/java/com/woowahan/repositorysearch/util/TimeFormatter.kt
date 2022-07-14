@@ -5,7 +5,7 @@ import java.util.*
 
 object TimeFormatter {
     fun toRelativeTime(src: String): String {
-        val srcFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S")
+        val srcFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val datetime = srcFormat.parse(src)
         val current = Calendar.getInstance().time.time
 
