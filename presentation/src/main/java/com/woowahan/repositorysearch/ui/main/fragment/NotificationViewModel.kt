@@ -50,8 +50,8 @@ class NotificationViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun markNotificationAsRead(threadId: String) {
-        markNotificationAsReadUseCase.execute(getCurrentTimeString(), threadId).onEach { result ->
+    fun markNotificationAsRead() {
+        markNotificationAsReadUseCase.execute(getCurrentTimeString()).onEach { result ->
             when (result) {
                 is Result.Success -> {
                     _isMarkedSuccess.emit(result.data)
