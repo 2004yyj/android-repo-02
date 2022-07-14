@@ -13,6 +13,6 @@ class AuthRepositoryImpl @Inject constructor(
         clientSecret: String,
         code: String
     ): GitHubToken {
-        return authDataSourceImpl.getAccessToken(clientId, clientSecret, code).toModel()
+        return authDataSourceImpl.getAccessToken(clientId, clientSecret, code)
     }
 }
