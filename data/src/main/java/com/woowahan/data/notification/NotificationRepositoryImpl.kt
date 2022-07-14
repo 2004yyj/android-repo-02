@@ -17,7 +17,7 @@ class NotificationRepositoryImpl @Inject constructor(
         val result = ArrayList<Notification>()
 
         for (notificationData in notificationDatas) {
-            result.add(notificationData.toModel())
+            result.add(notificationData)
         }
 
         return result
