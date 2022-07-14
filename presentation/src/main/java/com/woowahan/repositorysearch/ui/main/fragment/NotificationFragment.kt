@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 import com.woowahan.repositorysearch.ui.main.MainViewModel
-import com.woowahan.repositorysearch.ui.main.NotificationDivider
+import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
 import com.woowahan.repositorysearch.util.Dp2Px
 
 class NotificationFragment : Fragment() {
@@ -35,7 +34,7 @@ class NotificationFragment : Fragment() {
         binding.notificationRecyclerView.adapter = notificationAdapter
 
         val customDecoration =
-            NotificationDivider(
+            DividerItemDecoration(
                 Dp2Px.convert(requireContext(), 1F),
                 Dp2Px.convert(requireContext(), 24F),
                 ContextCompat.getColor(requireContext(), R.color.navy)
