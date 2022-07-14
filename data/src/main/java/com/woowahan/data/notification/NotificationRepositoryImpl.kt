@@ -9,13 +9,11 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
 ) : NotificationRepository {
-    override suspend fun getNotifications(): List<Notification> {
-        val notificationDatas = notificationDataSourceImpl.getNotifications()
+    override suspend fun getNotifications(page: Int): List<Notification> {
+        val notificationDatas = notificationDataSourceImpl.getNotifications(page)
         val result = ArrayList<Notification>()
 
         for (notificationData in notificationDatas) {
-            val commentCnt =
-                notificationData.repository.commentsUrl.split("/").last().replace("comments", "")
             result.add(
                 Notification(
                     notificationData.id,
