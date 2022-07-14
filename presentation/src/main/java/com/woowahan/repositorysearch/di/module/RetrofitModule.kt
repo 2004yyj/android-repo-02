@@ -1,6 +1,6 @@
 package com.woowahan.repositorysearch.di.module
 
-import com.woowahan.repositorysearch.util.TokenInterceptor
+import com.woowahan.repositorysearch.util.ApiHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,7 +38,7 @@ object RetrofitModule {
     fun provideApiOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(TokenInterceptor())
+            .addInterceptor(ApiHeaderInterceptor())
             .build()
     }
 

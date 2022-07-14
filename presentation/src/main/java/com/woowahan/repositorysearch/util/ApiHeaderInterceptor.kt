@@ -5,7 +5,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import retrofit2.http.Headers
 
-class TokenInterceptor : Interceptor {
+class ApiHeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
         val newRequest = request().newBuilder()
         if (GitToken.token.isNotEmpty()) {
