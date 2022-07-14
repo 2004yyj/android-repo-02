@@ -5,6 +5,7 @@ import com.woowahan.domain.model.User
 
 data class UserData(
     val login: String,
+    val name: String,
     @SerializedName("avatar_url")
     val avatar: String,
     val company: String,
@@ -14,13 +15,12 @@ data class UserData(
     val followers: Int,
     val following: Int,
     @SerializedName("public_repos")
-    val repositories: String,
-    @SerializedName("starred_url")
-    val starredUrl: String
+    val repositories: Int,
 )
 
 fun UserData.toModel() = User(
     login,
+    name,
     avatar,
     company,
     location,
@@ -29,5 +29,4 @@ fun UserData.toModel() = User(
     followers,
     following,
     repositories,
-    starredUrl
 )

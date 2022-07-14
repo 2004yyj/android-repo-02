@@ -77,8 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListener() {
         userIconActionView.setOnClickListener {
-            // 사용자 아이콘 클릭 시
-            val intent = ResultActivity.getIntent(this, ResultActivity.PageName.Profile, "2004yyj")
+            val intent = ResultActivity.getIntent(this, ResultActivity.PageName.Profile)
             startActivity(intent)
         }
 
