@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
@@ -32,6 +31,7 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.notificationRecyclerView.adapter = notificationAdapter
 
         val customDecoration =
@@ -43,5 +43,9 @@ class NotificationFragment : Fragment() {
         binding.notificationRecyclerView.addItemDecoration(customDecoration)
 
         viewModel.getNotifications()
+
+        viewModel.liveNotifications.observe(viewLifecycleOwner) {
+            notificationAdapter.submitList(it)
+        }
     }
 }

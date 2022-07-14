@@ -2,30 +2,22 @@ package com.woowahan.data.notification
 
 import com.woowahan.data.auth.AuthRepositoryImpl
 import com.woowahan.data.entity.NotificationData
+import com.woowahan.data.entity.toModel
 import com.woowahan.domain.model.Notification
 import com.woowahan.domain.repository.NotificationRepository
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
 ) : NotificationRepository {
-    override suspend fun getNotifications(): List<Notification> {
-        val notificationDatas = notificationDataSourceImpl.getNotifications()
+    override suspend fun getNotifications(page: Int): List<Notification> {
+        val notificationDatas = notificationDataSourceImpl.getNotifications(page)
         val result = ArrayList<Notification>()
 
         for (notificationData in notificationDatas) {
-            val commentCnt =
-                notificationData.repository.commentsUrl.split("/").last().replace("comments", "")
-            result.add(
-                Notification(
-                    notificationData.id.toInt(),
-                    notificationData.reason,
-                    notificationData.updatedAt,
-                    notificationData.repository.fullName,
-                    commentCnt.toInt(),
-                    notificationData.repository.owner.avatarUrl
-                )
-            )
+            result.add(notificationData.toModel())
         }
 
         return result
