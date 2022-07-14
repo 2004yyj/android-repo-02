@@ -2,6 +2,7 @@ package com.woowahan.domain.model
 
 data class User(
     val login: String,
+    val name: String,
     val avatar: String,
     val company: String,
     val location: String,

@@ -5,6 +5,7 @@ import com.woowahan.domain.model.User
 
 data class UserData(
     val login: String,
+    val name: String,
     @SerializedName("avatar_url")
     val avatar: String,
     val company: String,
@@ -21,6 +22,7 @@ data class UserData(
 
 fun UserData.toModel() = User(
     login,
+    name,
     avatar,
     company,
     location,
