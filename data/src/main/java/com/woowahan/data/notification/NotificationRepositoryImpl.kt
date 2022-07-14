@@ -18,11 +18,11 @@ class NotificationRepositoryImpl @Inject constructor(
                 notificationData.repository.commentsUrl.split("/").last().replace("comments", "")
             result.add(
                 Notification(
-                    notificationData.id.toInt(),
+                    notificationData.id,
                     notificationData.reason,
                     notificationData.updatedAt,
                     notificationData.repository.fullName,
-                    commentCnt.toInt(),
+                    5,
                     notificationData.repository.owner.avatarUrl
                 )
             )

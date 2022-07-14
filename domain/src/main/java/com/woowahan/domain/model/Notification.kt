@@ -1,7 +1,7 @@
 package com.woowahan.domain.model
 
 data class Notification(
-    val id: Int,
+    val id: String,
     val title: String,
     val lastUpdate: String,
     val repository: String,
