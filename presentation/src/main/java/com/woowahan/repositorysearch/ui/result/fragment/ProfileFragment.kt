@@ -9,7 +9,9 @@ import androidx.fragment.app.activityViewModels
 import com.woowahan.repositorysearch.databinding.FragmentProfileBinding
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val sharedViewModel: ResultViewModel by activityViewModels()

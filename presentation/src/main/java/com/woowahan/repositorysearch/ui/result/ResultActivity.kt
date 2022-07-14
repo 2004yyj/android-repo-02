@@ -15,8 +15,10 @@ import com.woowahan.repositorysearch.ui.result.fragment.SearchFragment
 import com.woowahan.repositorysearch.util.add
 import com.woowahan.repositorysearch.util.onBackPressed
 import com.woowahan.repositorysearch.util.replace
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 
+@AndroidEntryPoint
 class ResultActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityResultBinding.inflate(layoutInflater) }
