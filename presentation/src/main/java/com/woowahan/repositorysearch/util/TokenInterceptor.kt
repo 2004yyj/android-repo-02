@@ -8,7 +8,6 @@ class TokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response  = with(chain){
         val newRequest = request().newBuilder()
         if (GitToken.token.isNotEmpty()) {
-            newRequest.addHeader("X-OAuth-Scopes", "notification")
             newRequest.addHeader("Authorization", GitToken.token)
         }
         val build = newRequest.build()
