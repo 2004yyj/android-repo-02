@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentProfileBinding
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
 
-class ProfileFragment(bundle: Bundle) : Fragment() {
-    init { arguments = bundle }
+class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val sharedViewModel: ResultViewModel by activityViewModels()
 
