@@ -41,7 +41,5 @@ class NotificationFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
         binding.notificationRecyclerView.addItemDecoration(customDecoration)
-
-        viewModel.getNotifications()
     }
 }
