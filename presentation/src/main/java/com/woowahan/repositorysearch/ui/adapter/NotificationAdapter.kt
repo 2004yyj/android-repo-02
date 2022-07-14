@@ -36,10 +36,7 @@ class NotificationAdapter :
             binding.commentCntTextView.text = notification.commentCnt.toString()
             binding.recentUpdateTextView.text = notification.lastUpdate
             binding.repositoryNameTextView.text = notification.repository
-
-            //Todo: 추후 서버 연동 시 LiveData 에서 이미지 데이터 가져오기
-            //binding.userIconLayout.ivUserIcon.load(notification.profileUrl)
-            binding.userIconLayout.ivUserIcon.load("https://avatars.githubusercontent.com/u/18213322?v=4")
+            binding.userIconLayout.ivUserIcon.load(notification.profileUrl)
         }
     }
 
