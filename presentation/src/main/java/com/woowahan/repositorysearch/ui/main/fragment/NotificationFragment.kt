@@ -18,8 +18,6 @@ class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
     private val notificationAdapter = NotificationAdapter()
 
-    private val viewModel by activityViewModels<MainViewModel>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,11 +39,5 @@ class NotificationFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
         binding.rvNotification.addItemDecoration(customDecoration)
-
-        viewModel.getNotifications()
-
-        viewModel.liveNotifications.observe(viewLifecycleOwner) {
-            notificationAdapter.submitList(it)
-        }
     }
 }

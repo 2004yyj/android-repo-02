@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.tabs.TabLayout
@@ -19,6 +20,8 @@ import com.woowahan.repositorysearch.ui.main.fragment.IssueFragment
 import com.woowahan.repositorysearch.ui.main.fragment.NotificationFragment
 import dagger.hilt.android.AndroidEntryPoint
 import com.woowahan.repositorysearch.ui.result.ResultActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         init()
+        initFlow()
         initTabLayout()
         initListener()
     }
@@ -51,8 +55,17 @@ class MainActivity : AppCompatActivity() {
             listOf(IssueFragment(), NotificationFragment())
         )
 
-        //Todo: 추후 서버 연동 시 LiveData 에서 이미지 데이터 가져오기
-        ivUserIcon.load("https://avatars.githubusercontent.com/u/18213322?v=4")
+        viewModel.getUser()
+    }
+
+    private fun initFlow() {
+        viewModel.run {
+            lifecycleScope.launchWhenStarted {
+                user.collect {
+                    ivUserIcon.load(it.avatar)
+                }
+            }
+        }
     }
 
     private fun initTabLayout() = with(binding) {

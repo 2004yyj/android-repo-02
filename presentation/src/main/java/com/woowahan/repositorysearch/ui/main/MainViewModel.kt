@@ -1,33 +1,48 @@
 package com.woowahan.repositorysearch.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowahan.domain.model.Notification
-import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
+import com.woowahan.domain.model.User
+import com.woowahan.domain.model.Result
+import com.woowahan.domain.userUseCase.GetUserUseCase
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase
+    @RetrofitModule.typeApi
+    private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
-    private val _liveNotifications = MutableLiveData<List<Notification>>()
-    val liveNotifications: LiveData<List<Notification>>
-        get() = _liveNotifications
+    private val _user = MutableSharedFlow<User>()
+    val user = _user.asSharedFlow()
 
-    fun getNotifications() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _liveNotifications.postValue(getNotificationsUseCase.execute(1))
-            } catch (e: Exception) {
+    private val _isFailure = MutableSharedFlow<Throwable>()
+    val isFailure = _isFailure.asSharedFlow()
 
+    fun getUser() {
+        val user = getUserUseCase.execute()
+        Log.d("MainViewModel", "getUser: ")
+        user.onEach { result ->
+            when(result) {
+                is Result.Success -> {
+                    Log.d("MainViewModel", "getUser: success")
+                    _user.emit(result.data)
+                }
+                is Result.Failure -> {
+                    Log.d("MainViewModel", "getUser: failure")
+                    _isFailure.emit(result.throwable)
+                    Log.d("MainViewModel", "getUser: ${result.throwable.message}")
+                }
+                is Result.Loading -> {
+                    Log.d("MainViewModel", "getUser: loading")
+                }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 }
