@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
 
-        binding.loginButton.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             val loginUrl = Uri.Builder().scheme("https").authority("github.com")
                 .appendPath("login")
                 .appendPath("oauth")
