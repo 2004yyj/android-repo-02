@@ -16,8 +16,6 @@ data class UserData(
     val following: Int,
     @SerializedName("public_repos")
     val repositories: Int,
-    @SerializedName("starred_url")
-    val starredUrl: String
 )
 
 fun UserData.toModel() = User(
@@ -31,5 +29,4 @@ fun UserData.toModel() = User(
     followers,
     following,
     repositories,
-    starredUrl
 )

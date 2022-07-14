@@ -11,5 +11,4 @@ data class User(
     val followers: Int,
     val following: Int,
     val repositories: Int,
-    val starredUrl: String
 )
