@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotificationVIewModel @Inject constructor(
+class NotificationViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase
 ) : ViewModel() {
     fun getNotifications() {
