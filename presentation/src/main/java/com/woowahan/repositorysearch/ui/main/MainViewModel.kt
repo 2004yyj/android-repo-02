@@ -19,7 +19,6 @@ class MainViewModel @Inject constructor(
     @RetrofitModule.typeApi
     private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
-
     private val _user = MutableSharedFlow<User>()
     val user = _user.asSharedFlow()
 

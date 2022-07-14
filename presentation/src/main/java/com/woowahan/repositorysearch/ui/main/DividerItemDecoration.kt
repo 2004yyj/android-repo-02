@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import androidx.recyclerview.widget.RecyclerView
 
-class NotificationDivider(
+class DividerItemDecoration(
     private val height: Float,
     private val padding: Float,
     private val color: Int
