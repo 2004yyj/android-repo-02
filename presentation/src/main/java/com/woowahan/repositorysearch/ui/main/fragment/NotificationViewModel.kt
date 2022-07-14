@@ -1,4 +1,4 @@
-package com.woowahan.repositorysearch.ui.main
+package com.woowahan.repositorysearch.ui.main.fragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

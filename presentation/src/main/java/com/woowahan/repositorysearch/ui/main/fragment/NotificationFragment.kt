@@ -11,7 +11,6 @@ import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 import com.woowahan.repositorysearch.ui.main.NotificationDivider
-import com.woowahan.repositorysearch.ui.main.NotificationViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
 
