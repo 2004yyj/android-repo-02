@@ -4,6 +4,8 @@ import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
 import com.woowahan.domain.repository.AuthRepository
 import com.woowahan.domain.repository.NotificationRepository
+import com.woowahan.domain.repository.UserRepository
+import com.woowahan.domain.userUseCase.GetUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +27,12 @@ object UseCaseModule {
     @RetrofitModule.typeApi
     fun provideGetNotificationsUseCase(@RetrofitModule.typeApi repository: NotificationRepository): GetNotificationsUseCase {
         return GetNotificationsUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideGetUserUseCase(@RetrofitModule.typeApi repository: UserRepository): GetUserUseCase {
+        return GetUserUseCase(repository)
     }
 }
