@@ -74,7 +74,9 @@ class NotificationFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                print("TODO, Will be mark")
+                val position = viewHolder.adapterPosition
+                notificationAdapter.removeItem(position)
+                viewModel.markNotificationAsRead(notificationAdapter.currentList[position].id)
             }
 
             override fun onChildDraw(
