@@ -8,7 +8,7 @@
         tools:context=".ui.main.fragment.IssueFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notificationRecyclerView"
+            android:id="@+id/rv_notification"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
