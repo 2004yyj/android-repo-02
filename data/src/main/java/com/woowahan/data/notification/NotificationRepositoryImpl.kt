@@ -4,7 +4,9 @@ import com.woowahan.data.auth.AuthRepositoryImpl
 import com.woowahan.data.entity.NotificationData
 import com.woowahan.domain.model.Notification
 import com.woowahan.domain.repository.NotificationRepository
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
@@ -16,12 +18,12 @@ class NotificationRepositoryImpl @Inject constructor(
         for (notificationData in notificationDatas) {
             result.add(
                 Notification(
-                    notificationData.id,
-                    notificationData.reason,
-                    notificationData.updatedAt,
-                    notificationData.repository.fullName,
-                    5,
-                    notificationData.repository.owner.avatarUrl
+                    id = notificationData.id,
+                    title = notificationData.subject.title,
+                    lastUpdate = notificationData.updatedAt,
+                    repository = notificationData.repository.name,
+                    commentCnt = 5,
+                    profileUrl = notificationData.repository.owner.avatarUrl
                 )
             )
         }

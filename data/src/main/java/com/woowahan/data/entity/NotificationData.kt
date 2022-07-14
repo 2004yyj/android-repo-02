@@ -9,5 +9,6 @@ data class NotificationData(
     val unread: Boolean,
     @SerializedName("updated_at")
     val updatedAt: String,
-    val repository: RepositoryData
+    val repository: RepositoryData,
+    val subject: SubjectData
 )
