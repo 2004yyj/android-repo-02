@@ -14,14 +14,7 @@ class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
 ) : NotificationRepository {
     override suspend fun getNotifications(page: Int): List<Notification> {
-        val notificationDatas = notificationDataSourceImpl.getNotifications(page)
-        val result = ArrayList<Notification>()
-
-        for (notificationData in notificationDatas) {
-            result.add(notificationData)
-        }
-
-        return result
+        return notificationDataSourceImpl.getNotifications(page)
     }
 
     override suspend fun markNotificationAsRead(currentTime: String): Message {
