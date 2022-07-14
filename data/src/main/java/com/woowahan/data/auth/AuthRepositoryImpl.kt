@@ -1,5 +1,6 @@
 package com.woowahan.data.auth
 
+import com.woowahan.data.entity.toModel
 import com.woowahan.domain.model.GitHubToken
 import com.woowahan.domain.repository.AuthRepository
 import javax.inject.Inject
@@ -12,7 +13,6 @@ class AuthRepositoryImpl @Inject constructor(
         clientSecret: String,
         code: String
     ): GitHubToken {
-        val gitHubTokenData = authDataSourceImpl.getAccessToken(clientId, clientSecret, code)
-        return GitHubToken(gitHubTokenData.token, gitHubTokenData.type, gitHubTokenData.scope)
+        return authDataSourceImpl.getAccessToken(clientId, clientSecret, code).toModel()
     }
 }
