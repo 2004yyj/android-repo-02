@@ -8,7 +8,6 @@ import retrofit2.http.Query
 
 interface NotificationService {
     @GET("/notifications")
-    @Headers("Accept: application/vnd.github+json")
     suspend fun getNotifications(
         @Query("page") page: Int
     ): Response<List<NotificationData>>
