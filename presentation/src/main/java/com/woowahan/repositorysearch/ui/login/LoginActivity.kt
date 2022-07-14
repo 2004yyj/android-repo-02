@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.model.GitToken
 import com.woowahan.repositorysearch.BuildConfig
@@ -44,15 +45,26 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.isSuccess.observe(this, Observer { result ->
-            if (result == viewModel.SUCCESS) {
-                val mainIntent = Intent(this, MainActivity::class.java)
+        lifecycleScope.launchWhenStarted {
+            viewModel.isFailure.collect { throwable ->
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Failed To Login: Caused By ${throwable.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.token.collect { result ->
+                GitToken.token = result.token
+                GitToken.scope = result.scope
+
+                val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
                 mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(mainIntent)
-            } else {
-                Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
