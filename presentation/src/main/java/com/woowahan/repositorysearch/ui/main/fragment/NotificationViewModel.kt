@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.model.GitToken
+import com.woowahan.domain.model.Notification
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
 import com.woowahan.repositorysearch.BuildConfig
 import com.woowahan.repositorysearch.di.module.RetrofitModule
@@ -17,10 +18,13 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase
 ) : ViewModel() {
+    private val _liveNotifications = MutableLiveData<List<Notification>>()
+    val liveNotifications: LiveData<List<Notification>>
+        get() = _liveNotifications
+
     fun getNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
-            val test = getNotificationsUseCase.execute()
-            print(test)
+            _liveNotifications.postValue(getNotificationsUseCase.execute(1))
         }
     }
 }

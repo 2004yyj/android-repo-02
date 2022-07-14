@@ -10,9 +10,7 @@ import androidx.fragment.app.viewModels
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
-import com.woowahan.repositorysearch.ui.main.NotificationDivider
 import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
-import com.woowahan.repositorysearch.ui.main.fragment.NotificationViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,9 +18,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
     private val notificationAdapter = NotificationAdapter()
-    
+
     private val viewModel by viewModels<NotificationViewModel>()
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,5 +42,11 @@ class NotificationFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
         binding.rvNotification.addItemDecoration(customDecoration)
+
+        viewModel.getNotifications()
+
+        viewModel.liveNotifications.observe(viewLifecycleOwner) {
+            notificationAdapter.submitList(it)
+        }
     }
 }
