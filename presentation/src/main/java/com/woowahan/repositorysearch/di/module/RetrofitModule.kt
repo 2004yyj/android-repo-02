@@ -1,5 +1,6 @@
 package com.woowahan.repositorysearch.di.module
 
+import com.woowahan.repositorysearch.util.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,10 +34,31 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+    @typeApi
+    fun provideApiOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(TokenInterceptor())
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @typeAuth
     fun provideAuthRetrofit(@typeAuth okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://github.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @typeApi
+    fun provideApiRetrofit(@typeApi okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.github.com")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

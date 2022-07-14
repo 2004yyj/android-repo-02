@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
                     code = code
                 )
 
-                GitToken.token = "$${token.type} ${token.token}"
+                GitToken.token = "token ${token.token}"
                 GitToken.scope = token.scope
                 _isSuccess.postValue(SUCCESS)
             } catch (e: Exception) {
