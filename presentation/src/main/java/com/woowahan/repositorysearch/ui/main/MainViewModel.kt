@@ -1,6 +1,5 @@
 package com.woowahan.repositorysearch.ui.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.model.User
@@ -31,17 +30,12 @@ class MainViewModel @Inject constructor(
         user.onEach { result ->
             when(result) {
                 is Result.Success -> {
-                    Log.d("MainViewModel", "getUser: success")
                     _user.emit(result.data)
                 }
                 is Result.Failure -> {
-                    Log.d("MainViewModel", "getUser: failure")
                     _isFailure.emit(result.throwable)
-                    Log.d("MainViewModel", "getUser: ${result.throwable.message}")
                 }
-                is Result.Loading -> {
-                    Log.d("MainViewModel", "getUser: loading")
-                }
+                is Result.Loading -> {}
             }
         }.launchIn(viewModelScope)
     }
