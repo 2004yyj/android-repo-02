@@ -33,6 +33,30 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setPageName(ResultActivity.PageName.Profile.javaClass.simpleName)
+
+        init()
+        initFlow()
+    }
+
+    private fun init() {
+        viewModel.getUser()
+    }
+
+    private fun initFlow() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.user.collect {
+                binding.ivUserIcon.load(it.avatar)
+                binding.tvLogin.text = it.login
+                binding.tvName.text = it.name
+                binding.tvType.text = it.company
+                binding.tvLocation.text = it.location
+                binding.tvLink.setUnderlineText(it.blog)
+                binding.tvMail.setUnderlineText(it.mail)
+                binding.tvFollowers.text = it.followers.toString()
+                binding.tvFollowing.text = it.following.toString()
+                binding.tvRepositories.text = it.repositories.toString()
+            }
+        }
     }
 
     companion object {
