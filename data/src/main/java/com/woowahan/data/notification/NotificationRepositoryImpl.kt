@@ -3,6 +3,7 @@ package com.woowahan.data.notification
 import com.woowahan.data.auth.AuthRepositoryImpl
 import com.woowahan.data.entity.NotificationData
 import com.woowahan.data.entity.toModel
+import com.woowahan.domain.model.Message
 import com.woowahan.domain.model.Notification
 import com.woowahan.domain.repository.NotificationRepository
 import java.util.*
@@ -21,5 +22,9 @@ class NotificationRepositoryImpl @Inject constructor(
         }
 
         return result
+    }
+
+    override suspend fun markNotificationAsRead(currentTime: String): Message {
+        return notificationDataSourceImpl.markNotificationAsRead(currentTime)
     }
 }
