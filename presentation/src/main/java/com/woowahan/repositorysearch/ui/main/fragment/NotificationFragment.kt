@@ -32,7 +32,7 @@ class NotificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.notificationRecyclerView.adapter = notificationAdapter
+        binding.rvNotification.adapter = notificationAdapter
 
         val customDecoration =
             NotificationDivider(
@@ -40,7 +40,7 @@ class NotificationFragment : Fragment() {
                 Dp2Px.convert(requireContext(), 24F),
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
-        binding.notificationRecyclerView.addItemDecoration(customDecoration)
+        binding.rvNotification.addItemDecoration(customDecoration)
 
         viewModel.getNotifications()
 

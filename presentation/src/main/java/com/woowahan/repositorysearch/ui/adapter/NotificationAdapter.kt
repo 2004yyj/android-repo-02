@@ -33,11 +33,11 @@ class NotificationAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(notification: Notification) {
-            binding.notificationTitle.text = notification.title
-            binding.commentCntTextView.text = notification.commentCnt.toString()
-            binding.recentUpdateTextView.text = TimeFormatter.toRelativeTime(notification.lastUpdate)
-            binding.repositoryNameTextView.text = notification.repository
-            binding.userIconLayout.ivUserIcon.load(notification.profileUrl)
+            binding.tvNotificationTitle.text = notification.title
+            binding.tvCommentCnt.text = notification.commentCnt.toString()
+            binding.tvRecentUpdate.text = TimeFormatter.toRelativeTime(notification.lastUpdate)
+            binding.tvRepositoryName.text = notification.repository
+            binding.layoutUserIcon.ivUserIcon.load(notification.profileUrl)
         }
     }
 

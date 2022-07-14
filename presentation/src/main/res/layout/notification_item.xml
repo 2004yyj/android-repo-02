@@ -9,7 +9,7 @@
         android:paddingBottom="16dp">
 
         <include
-            android:id="@+id/userIconLayout"
+            android:id="@+id/layout_user_icon"
             layout="@layout/menu_item_user_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/repositoryNameTextView"
+            android:id="@+id/tv_repository_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -27,24 +27,24 @@
             android:maxLines="1"
             android:textColor="@color/grey"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/userIconLayout"
-            app:layout_constraintLeft_toRightOf="@id/userIconLayout"
-            app:layout_constraintRight_toLeftOf="@id/recentUpdateTextView"
-            app:layout_constraintTop_toTopOf="@id/userIconLayout" />
+            app:layout_constraintBottom_toBottomOf="@id/layout_user_icon"
+            app:layout_constraintLeft_toRightOf="@id/layout_user_icon"
+            app:layout_constraintRight_toLeftOf="@id/tv_recentUpdate"
+            app:layout_constraintTop_toTopOf="@id/layout_user_icon" />
 
         <TextView
-            android:id="@+id/recentUpdateTextView"
+            android:id="@+id/tv_recentUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:textColor="@color/grey"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/userIconLayout"
+            app:layout_constraintBottom_toBottomOf="@id/layout_user_icon"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/userIconLayout" />
+            app:layout_constraintTop_toTopOf="@id/layout_user_icon" />
 
         <TextView
-            android:id="@+id/notificationTitle"
+            android:id="@+id/tv_notificationTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -53,22 +53,22 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintLeft_toLeftOf="@id/repositoryNameTextView"
-            app:layout_constraintRight_toLeftOf="@id/commentCardView"
-            app:layout_constraintTop_toBottomOf="@id/repositoryNameTextView" />
+            app:layout_constraintLeft_toLeftOf="@id/tv_repository_name"
+            app:layout_constraintRight_toLeftOf="@id/cv_comment"
+            app:layout_constraintTop_toBottomOf="@id/tv_repository_name" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/commentCardView"
+            android:id="@+id/cv_comment"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_marginEnd="24dp"
             android:minWidth="24dp"
             app:cardCornerRadius="3dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/notificationTitle">
+            app:layout_constraintTop_toTopOf="@id/tv_notificationTitle">
 
             <TextView
-                android:id="@+id/commentCntTextView"
+                android:id="@+id/tv_commentCnt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
