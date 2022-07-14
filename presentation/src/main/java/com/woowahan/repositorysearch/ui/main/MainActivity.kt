@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchMenu: MenuItem
     private lateinit var viewPagerAdapter: ViewPagerAdapter
 
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
