@@ -11,7 +11,6 @@ import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
-import com.woowahan.repositorysearch.ui.main.fragment.NotificationViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,6 +43,10 @@ class NotificationFragment : Fragment() {
             )
         binding.rvNotification.addItemDecoration(customDecoration)
 
-        notificationAdapter.submitList(viewModel.getNotifications())
+        viewModel.getNotifications()
+
+        viewModel.liveNotifications.observe(viewLifecycleOwner) {
+            notificationAdapter.submitList(it)
+        }
     }
 }
