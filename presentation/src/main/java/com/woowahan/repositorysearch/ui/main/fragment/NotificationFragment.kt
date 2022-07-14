@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
@@ -45,8 +47,12 @@ class NotificationFragment : Fragment() {
 
         viewModel.getNotifications()
 
-        viewModel.liveNotifications.observe(viewLifecycleOwner) {
-            notificationAdapter.submitList(it)
+        viewModel.run {
+            lifecycleScope.launchWhenStarted {
+                notifications.collect {
+                    notificationAdapter.submitList(it)
+                }
+            }
         }
     }
 }
