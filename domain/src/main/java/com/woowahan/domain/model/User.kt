@@ -10,6 +10,6 @@ data class User(
     val mail: String,
     val followers: Int,
     val following: Int,
-    val repositories: String,
+    val repositories: Int,
     val starredUrl: String
 )

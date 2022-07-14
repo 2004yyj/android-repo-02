@@ -15,7 +15,7 @@ data class UserData(
     val followers: Int,
     val following: Int,
     @SerializedName("public_repos")
-    val repositories: String,
+    val repositories: Int,
     @SerializedName("starred_url")
     val starredUrl: String
 )
