@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.woowahan.repositorysearch.databinding.FragmentProfileBinding
 import com.woowahan.repositorysearch.extension.setUnderlineText
+import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var loadingDialog: LoadingDialogFragment
     private val sharedViewModel: ResultViewModel by activityViewModels()
     private val viewModel: ProfileViewModel by viewModels()
 
@@ -39,6 +41,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun init() {
+        loadingDialog = LoadingDialogFragment()
         viewModel.getUser()
     }
 
@@ -55,6 +58,21 @@ class ProfileFragment : Fragment() {
                 binding.tvFollowers.text = it.followers.toString()
                 binding.tvFollowing.text = it.following.toString()
                 binding.tvRepositories.text = it.repositories.toString()
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isLoading.collect { loading ->
+                if (loading) {
+                    loadingDialog.show(
+                        requireActivity().supportFragmentManager,
+                        "ProfileFragment"
+                    )
+                    binding.constraintProfile.visibility = View.GONE
+                } else {
+                    loadingDialog.dismiss()
+                    binding.constraintProfile.visibility = View.VISIBLE
+                }
             }
         }
     }

@@ -24,9 +24,13 @@ class ProfileViewModel @Inject constructor(
     private val _isFailure = MutableSharedFlow<Throwable>()
     val isFailure = _isFailure.asSharedFlow()
 
+    private val _isLoading = MutableSharedFlow<Boolean>()
+    val isLoading = _isLoading.asSharedFlow()
+
     fun getUser() {
         val user = getUserUseCase.execute()
         user.onEach { result ->
+            _isLoading.emit(false)
             when(result) {
                 is Result.Success -> {
                     _user.emit(result.data)
@@ -34,7 +38,9 @@ class ProfileViewModel @Inject constructor(
                 is Result.Failure -> {
                     _isFailure.emit(result.throwable)
                 }
-                is Result.Loading -> {}
+                is Result.Loading -> {
+                    _isLoading.emit(true)
+                }
             }
         }.launchIn(viewModelScope)
     }
