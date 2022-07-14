@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.woowahan.repositorysearch">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".di.application.DaggerApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,14 +17,33 @@
         android:theme="@style/Theme.RepositorySearch"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".ui.login.LoginActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="github-auth"
+                    android:scheme="rs" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.result.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
