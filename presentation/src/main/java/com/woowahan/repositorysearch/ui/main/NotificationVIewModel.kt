@@ -13,7 +13,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
-
-
+@HiltViewModel
+class NotificationVIewModel @Inject constructor(
+    @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase
+) : ViewModel() {
+    fun getNotifications() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val test = getNotificationsUseCase.execute()
+            print(test)
+        }
+    }
 }

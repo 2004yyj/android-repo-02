@@ -7,19 +7,21 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 import com.woowahan.repositorysearch.ui.main.MainViewModel
 import com.woowahan.repositorysearch.ui.main.NotificationDivider
+import com.woowahan.repositorysearch.ui.main.NotificationVIewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
     private val notificationAdapter = NotificationAdapter()
 
-    private val viewModel by activityViewModels<MainViewModel>()
+    private val viewModel by viewModels<NotificationVIewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
