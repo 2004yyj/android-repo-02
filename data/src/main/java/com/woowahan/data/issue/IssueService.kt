@@ -6,8 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface IssueService {
-    @GET("/issue")
-    fun getIssues(
+    @GET("/issues")
+    suspend fun getIssues(
         @Query("state") state: String,
         @Query("per_page") perPage: Int,
         @Query("page") page: Int,

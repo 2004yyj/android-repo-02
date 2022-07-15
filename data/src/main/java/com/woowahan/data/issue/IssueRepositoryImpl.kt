@@ -11,14 +11,13 @@ import javax.inject.Inject
 class IssueRepositoryImpl @Inject constructor(
     private val issueDataSourceImpl: IssueDataSourceImpl
 ): IssueRepository<PagingData<Issue>> {
-    override fun getIssues(
+    override suspend fun getIssues(
         size: Int,
         state: String
     ): Flow<PagingData<Issue>> {
         return Pager(
             config = PagingConfig(
                 pageSize = size,
-                initialLoadSize = size * 2,
                 enablePlaceholders = false
             ), pagingSourceFactory = { IssuePagingSource(issueDataSourceImpl, state) }
         ).flow

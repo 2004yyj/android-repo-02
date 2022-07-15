@@ -6,8 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 class GetIssueUseCase<T>(private val repository: IssueRepository<T>) {
-    fun execute(
+    suspend fun execute(
         size: Int,
         state: String
-    ) = repository.getIssues(size, state).flowOn(Dispatchers.IO)
+    ) = repository.getIssues(size, state)
 }

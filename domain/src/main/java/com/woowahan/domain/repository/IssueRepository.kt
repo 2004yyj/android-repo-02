@@ -4,7 +4,7 @@ import com.woowahan.domain.model.Issue
 import kotlinx.coroutines.flow.Flow
 
 interface IssueRepository<T> {
-    fun getIssues(
+    suspend fun getIssues(
         size: Int,
         state: String
     ): Flow<T>
