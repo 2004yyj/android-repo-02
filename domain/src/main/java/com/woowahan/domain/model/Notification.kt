@@ -10,5 +10,6 @@ data class Notification(
     val profileUrl: String,
     val organization: String,
     val subjectType: String,
-    val subjectId: String
+    val subjectId: String,
+    var htmlUrl: String
 )

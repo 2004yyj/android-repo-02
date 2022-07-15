@@ -16,7 +16,7 @@ data class SubjectData(
 fun SubjectData.toModel(): Subject {
     return Subject(
         this.id,
-        this.url,
+        this.htmlUrl,
         this.comments
     )
 }

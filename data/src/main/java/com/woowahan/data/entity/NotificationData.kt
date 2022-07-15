@@ -26,6 +26,7 @@ fun NotificationData.toModel(): Notification {
         profileUrl = this.repository.owner.avatarUrl,
         organization = this.repository.owner.name,
         subjectType = token[token.lastIndex - 1],
-        subjectId = token.last()
+        subjectId = token.last(),
+        htmlUrl = ""
     )
 }

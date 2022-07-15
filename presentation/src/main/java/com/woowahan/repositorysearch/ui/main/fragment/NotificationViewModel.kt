@@ -72,6 +72,7 @@ class NotificationViewModel @Inject constructor(
             when (result) {
                 is Result.Success -> {
                     noti.commentCnt = result.data.comments
+                    noti.htmlUrl = result.data.htmlUrl
                     _notifications.emit(noti)
                 }
                 is Result.Failure -> {
