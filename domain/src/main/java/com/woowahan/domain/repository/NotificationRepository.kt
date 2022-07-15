@@ -6,7 +6,7 @@ import com.woowahan.domain.model.Subject
 
 interface NotificationRepository {
     suspend fun getNotifications(page: Int): List<Notification>
-    suspend fun markNotificationAsRead(currentTime: String): Message
+    suspend fun markNotificationAsRead(path: String): Message
     suspend fun getSubject(
         organization: String,
         repository: String,

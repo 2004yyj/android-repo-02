@@ -24,7 +24,14 @@ object ServiceModule {
     @Provides
     @Singleton
     @RetrofitModule.typeApi
-    fun provideNotificationService(@RetrofitModule.typeApi retrofit: Retrofit): NotificationService {
+    fun provideApiNotificationService(@RetrofitModule.typeApi retrofit: Retrofit): NotificationService {
+        return retrofit.create(NotificationService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @RetrofitModule.typeGitHub
+    fun provideGitHubNotificationService(@RetrofitModule.typeGitHub retrofit: Retrofit): NotificationService {
         return retrofit.create(NotificationService::class.java)
     }
 

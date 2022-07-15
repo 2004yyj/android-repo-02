@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase,
-    @RetrofitModule.typeApi private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
+    @RetrofitModule.typeGitHub private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
     @RetrofitModule.typeApi private val getSubjectUseCase: GetSubjectUseCase
 ) : ViewModel() {
     private val _notifications = MutableSharedFlow<Notification>()

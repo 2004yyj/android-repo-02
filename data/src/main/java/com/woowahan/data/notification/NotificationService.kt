@@ -13,11 +13,9 @@ interface NotificationService {
         @Query("page") page: Int
     ): Response<List<NotificationData>>
 
-    @FormUrlEncoded
-    @PUT("/notifications")
+    @GET("/{path}")
     suspend fun markNotificationAsRead(
-        @Field("last_read_at") currentTime: String,
-        @Field("read") isRead: Boolean = true
+        @Path("path", encoded = true) path: String
     ): Response<MessageData>
 
     @GET("/repos/{organization}/{repo}/{type}/{id}")

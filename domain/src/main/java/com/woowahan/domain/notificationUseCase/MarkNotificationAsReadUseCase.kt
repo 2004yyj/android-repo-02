@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class MarkNotificationAsReadUseCase(private val repository: NotificationRepository) {
-    fun execute(currentTime: String) = flow {
+    fun execute(path: String) = flow {
         emit(Result.Loading)
         try {
-            val message = repository.markNotificationAsRead(currentTime)
+            val message = repository.markNotificationAsRead(path.replace("https://github.com/", ""))
             emit(Result.Success(message))
         } catch (e: Throwable) {
             emit(Result.Failure(e))

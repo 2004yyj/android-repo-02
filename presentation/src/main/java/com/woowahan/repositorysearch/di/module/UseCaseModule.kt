@@ -33,8 +33,8 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    @RetrofitModule.typeApi
-    fun provideMarkNotificationAsReadUseCase(@RetrofitModule.typeApi repository: NotificationRepository): MarkNotificationAsReadUseCase {
+    @RetrofitModule.typeGitHub
+    fun provideMarkNotificationAsReadUseCase(@RetrofitModule.typeGitHub repository: NotificationRepository): MarkNotificationAsReadUseCase {
         return MarkNotificationAsReadUseCase(repository)
     }
 

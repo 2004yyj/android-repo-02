@@ -25,7 +25,14 @@ object DataSourceModule {
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideNotificationDataSource(@RetrofitModule.typeApi notificationService: NotificationService): NotificationDataSourceImpl {
+    fun provideApiNotificationDataSource(@RetrofitModule.typeApi notificationService: NotificationService): NotificationDataSourceImpl {
+        return NotificationDataSourceImpl(notificationService)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeGitHub
+    fun provideGitHubNotificationDataSource(@RetrofitModule.typeGitHub notificationService: NotificationService): NotificationDataSourceImpl {
         return NotificationDataSourceImpl(notificationService)
     }
 

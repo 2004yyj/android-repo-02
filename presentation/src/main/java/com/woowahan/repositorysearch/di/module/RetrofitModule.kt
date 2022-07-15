@@ -26,7 +26,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     @typeGitHub
-    fun provideAuthOkHttpClient(): OkHttpClient {
+    fun provideGitHubOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
