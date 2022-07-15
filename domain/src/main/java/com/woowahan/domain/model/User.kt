@@ -10,5 +10,7 @@ data class User(
     val mail: String,
     val followers: Int,
     val following: Int,
-    val repositories: Int,
-)
+    val repositories: Int
+) {
+    var starredSize = 0
+}
