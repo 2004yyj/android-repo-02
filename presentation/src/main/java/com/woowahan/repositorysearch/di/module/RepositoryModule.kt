@@ -20,8 +20,8 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Singleton
     @Provides
-    @RetrofitModule.typeAuth
-    fun provideAuthRepository(@RetrofitModule.typeAuth authDataSourceImpl: AuthDataSourceImpl): AuthRepository =
+    @RetrofitModule.typeGitHub
+    fun provideAuthRepository(@RetrofitModule.typeGitHub authDataSourceImpl: AuthDataSourceImpl): AuthRepository =
         AuthRepositoryImpl(authDataSourceImpl)
 
     @Singleton

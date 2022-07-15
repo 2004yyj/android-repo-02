@@ -17,7 +17,7 @@ import javax.inject.Singleton
 object RetrofitModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
-    annotation class typeAuth
+    annotation class typeGitHub
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -25,7 +25,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @typeAuth
+    @typeGitHub
     fun provideAuthOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -44,8 +44,8 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @typeAuth
-    fun provideAuthRetrofit(@typeAuth okHttpClient: OkHttpClient): Retrofit {
+    @typeGitHub
+    fun provideAuthRetrofit(@typeGitHub okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://github.com")
             .addConverterFactory(GsonConverterFactory.create())

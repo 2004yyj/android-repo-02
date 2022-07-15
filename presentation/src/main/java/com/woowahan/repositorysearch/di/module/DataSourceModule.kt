@@ -17,8 +17,8 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    @RetrofitModule.typeAuth
-    fun provideAuthDataSource(@RetrofitModule.typeAuth authService: AuthService): AuthDataSourceImpl {
+    @RetrofitModule.typeGitHub
+    fun provideAuthDataSource(@RetrofitModule.typeGitHub authService: AuthService): AuthDataSourceImpl {
         return AuthDataSourceImpl(authService)
     }
 
