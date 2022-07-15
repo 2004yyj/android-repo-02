@@ -111,17 +111,17 @@ class NotificationFragment : Fragment() {
                     val icRight = (view.right - icPadding).toInt()
                     val icBottom = icTop + icon.intrinsicHeight
 
-                    if (dX == 0F) {
+                    c.drawRect(
+                        view.right.toFloat() + dX,
+                        view.top.toFloat(),
+                        view.right.toFloat(),
+                        view.bottom.toFloat(),
+                        paint
+                    )
+
+                    if (-dX < icon.intrinsicWidth + icPadding) {
                         icon.bounds = Rect(0, 0, 0, 0)
                     } else {
-                        c.drawRect(
-                            view.right.toFloat() + dX,
-                            view.top.toFloat(),
-                            view.right.toFloat(),
-                            view.bottom.toFloat(),
-                            paint
-                        )
-
                         icon.bounds = Rect(icLeft, icTop, icRight, icBottom)
                         icon.draw(c)
                     }
