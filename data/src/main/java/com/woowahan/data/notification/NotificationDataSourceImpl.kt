@@ -15,4 +15,7 @@ class NotificationDataSourceImpl(override val service: NotificationService) :
 
     suspend fun markNotificationAsRead(currentTime: String): Message =
         getData(service.markNotificationAsRead(currentTime)).toModel()
+
+    suspend fun getSubject(organization: String, repository: String, type: String, id: String) =
+        getData(service.getSubject(organization, repository, type, id)).toModel()
 }

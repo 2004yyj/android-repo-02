@@ -2,6 +2,7 @@ package com.woowahan.repositorysearch.di.module
 
 import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
+import com.woowahan.domain.notificationUseCase.GetSubjectUseCase
 import com.woowahan.domain.notificationUseCase.MarkNotificationAsReadUseCase
 import com.woowahan.domain.repository.AuthRepository
 import com.woowahan.domain.repository.NotificationRepository
@@ -35,6 +36,13 @@ object UseCaseModule {
     @RetrofitModule.typeApi
     fun provideMarkNotificationAsReadUseCase(@RetrofitModule.typeApi repository: NotificationRepository): MarkNotificationAsReadUseCase {
         return MarkNotificationAsReadUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideGetSubjectUseCase(@RetrofitModule.typeApi repository: NotificationRepository): GetSubjectUseCase {
+        return GetSubjectUseCase(repository)
     }
 
     @Singleton
