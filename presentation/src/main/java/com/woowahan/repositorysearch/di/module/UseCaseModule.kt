@@ -1,8 +1,12 @@
 package com.woowahan.repositorysearch.di.module
 
+import androidx.paging.PagingData
 import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
+import com.woowahan.domain.issueUseCase.GetIssueUseCase
+import com.woowahan.domain.model.Issue
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
 import com.woowahan.domain.repository.AuthRepository
+import com.woowahan.domain.repository.IssueRepository
 import com.woowahan.domain.repository.NotificationRepository
 import com.woowahan.domain.repository.UserRepository
 import com.woowahan.domain.userUseCase.GetUserUseCase
@@ -34,5 +38,12 @@ object UseCaseModule {
     @RetrofitModule.typeApi
     fun provideGetUserUseCase(@RetrofitModule.typeApi repository: UserRepository): GetUserUseCase {
         return GetUserUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideGetIssueUseCase(@RetrofitModule.typeApi repository: IssueRepository<PagingData<Issue>>): GetIssueUseCase<PagingData<Issue>> {
+        return GetIssueUseCase(repository)
     }
 }

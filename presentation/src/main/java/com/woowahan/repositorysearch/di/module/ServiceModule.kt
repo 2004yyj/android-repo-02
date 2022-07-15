@@ -1,6 +1,7 @@
 package com.woowahan.repositorysearch.di.module
 
 import com.woowahan.data.auth.AuthService
+import com.woowahan.data.issue.IssueService
 import com.woowahan.data.notification.NotificationService
 import com.woowahan.data.user.UserService
 import dagger.Module
@@ -34,5 +35,12 @@ object ServiceModule {
     @RetrofitModule.typeApi
     fun provideUserService(@RetrofitModule.typeApi retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @RetrofitModule.typeApi
+    fun provideIssueService(@RetrofitModule.typeApi retrofit: Retrofit): IssueService {
+        return retrofit.create(IssueService::class.java)
     }
 }
