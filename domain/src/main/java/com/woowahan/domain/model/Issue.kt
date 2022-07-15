@@ -5,6 +5,6 @@ data class Issue(
     val title: String,
     val number: Int,
     val state: String,
-    val createdAt: String,
+    val updatedAt: String,
     val repository: String
 )

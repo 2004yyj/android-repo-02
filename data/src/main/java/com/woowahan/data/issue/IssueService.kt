@@ -10,6 +10,7 @@ interface IssueService {
     fun getIssues(
         @Query("state") state: String,
         @Query("per_page") perPage: Int,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("sort") sort: String = "updated"
     ): Response<List<IssueData>>
 }

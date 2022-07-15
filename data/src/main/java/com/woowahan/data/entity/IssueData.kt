@@ -10,7 +10,7 @@ data class IssueData(
     val state: String,
     val repository: RepositoryData,
     @SerializedName("created_at")
-    val createdAt: String,
+    val updatedAt: String,
 )
 
 fun IssueData.toModel(): Issue {
@@ -19,7 +19,7 @@ fun IssueData.toModel(): Issue {
         title,
         number,
         state,
-        createdAt,
+        updatedAt,
         repository.fullName
     )
 }
