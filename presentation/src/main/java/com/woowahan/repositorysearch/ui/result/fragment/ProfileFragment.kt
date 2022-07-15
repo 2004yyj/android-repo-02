@@ -58,6 +58,7 @@ class ProfileFragment : Fragment() {
                 binding.tvFollowers.text = it.followers.toString()
                 binding.tvFollowing.text = it.following.toString()
                 binding.tvRepositories.text = it.repositories.toString()
+                binding.tvStarred.text = it.starredSize.toString()
             }
         }
 
