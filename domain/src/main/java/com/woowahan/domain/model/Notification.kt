@@ -6,6 +6,9 @@ data class Notification(
     val title: String,
     val lastUpdate: String,
     val repository: String,
-    val commentCnt: Int,
-    val profileUrl: String
+    var commentCnt: Int,
+    val profileUrl: String,
+    val organization: String,
+    val subjectType: String,
+    val subjectId: String
 )
