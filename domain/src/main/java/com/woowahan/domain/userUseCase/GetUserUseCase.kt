@@ -11,6 +11,9 @@ class GetUserUseCase(private val repository: UserRepository) {
         emit(Result.Loading)
         try {
             val user = repository.getUser()
+            val starred = repository.getUserStarredSize(user.login)
+            user.starredSize = starred
+
             emit(Result.Success(user))
         } catch (e: Throwable) {
             emit(Result.Failure(e))
