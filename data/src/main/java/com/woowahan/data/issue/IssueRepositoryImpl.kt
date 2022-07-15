@@ -1,5 +1,6 @@
 package com.woowahan.data.issue
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -18,6 +19,7 @@ class IssueRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = size,
+                initialLoadSize = size,
                 enablePlaceholders = false
             ), pagingSourceFactory = { IssuePagingSource(issueDataSourceImpl, state) }
         ).flow
