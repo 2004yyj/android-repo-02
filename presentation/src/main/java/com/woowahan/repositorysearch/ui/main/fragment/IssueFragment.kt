@@ -56,7 +56,14 @@ class IssueFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
         binding.rvIssue.addItemDecoration(customDecoration)
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.issue.collect {
+                issueAdapter.submitData(lifecycle, it)
+            }
+        }
     }
+
     private fun initSpinner() {
         binding.spiFilter.adapter = filterAdapter
         binding.spiFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -66,12 +73,16 @@ class IssueFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val query = filterItem[position]
-                // 이슈 검색하기
+                viewModel.getIssues(
+                    when(filterItem[position]) {
+                        "Opened" -> "open"
+                        "Closed" -> "closed"
+                        "All" -> "all"
+                        else -> "all"
+                    }
+                )
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 }
