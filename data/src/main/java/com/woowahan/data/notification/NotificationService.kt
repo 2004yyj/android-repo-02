@@ -16,7 +16,7 @@ interface NotificationService {
     @GET("/{path}")
     suspend fun markNotificationAsRead(
         @Path("path", encoded = true) path: String
-    ): Response<MessageData>
+    ): Response<String>
 
     @GET("/repos/{organization}/{repo}/{type}/{id}")
     suspend fun getSubject(

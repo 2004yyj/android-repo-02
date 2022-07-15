@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,6 +68,15 @@ class NotificationFragment : Fragment() {
             }
         }
 
+        viewModel.markFailed.observe(viewLifecycleOwner) {
+            val position = it[0] as Int
+            val notification = it[1] as Notification
+            val throwable = it[2] as Throwable
+
+            notificationAdapter.restoreItem(notification, position)
+            Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_SHORT).show()
+        }
+
         ItemTouchHelper(recyclerViewTouchCallback).attachToRecyclerView(binding.rvNotification)
     }
 
@@ -82,8 +92,11 @@ class NotificationFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
+                viewModel.markNotificationAsRead(
+                    position,
+                    notificationAdapter.currentList[position]
+                )
                 notificationAdapter.removeItem(position)
-                viewModel.markNotificationAsRead()
             }
 
             override fun onChildDraw(

@@ -1,5 +1,7 @@
 package com.woowahan.repositorysearch.ui.main.fragment
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.model.*
@@ -29,11 +31,9 @@ class NotificationViewModel @Inject constructor(
     private val _isFailure = MutableSharedFlow<Throwable>()
     val isFailure = _isFailure.asSharedFlow()
 
-    private val _isMarkedSuccess = MutableSharedFlow<Message>()
-    val isMarkedSuccess = _isMarkedSuccess.asSharedFlow()
-
-    private val _isMarkedFail = MutableSharedFlow<Throwable>()
-    val isMarkedFail = _isMarkedFail.asSharedFlow()
+    private var _markFailed = MutableLiveData<List<Any>>()
+    val markFailed: LiveData<List<Any>>
+        get() = _markFailed
 
     fun getNotifications() {
         val noti = getNotificationsUseCase.execute(1)
@@ -53,14 +53,12 @@ class NotificationViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun markNotificationAsRead() {
-        markNotificationAsReadUseCase.execute(getCurrentTimeString()).onEach { result ->
+    fun markNotificationAsRead(adapterPosition: Int, noti: Notification) {
+        markNotificationAsReadUseCase.execute(noti.htmlUrl).onEach { result ->
             when (result) {
-                is Result.Success -> {
-                    _isMarkedSuccess.emit(result.data)
-                }
+                is Result.Success -> {}
                 is Result.Failure -> {
-                    _isMarkedFail.emit(result.throwable)
+                    _markFailed.postValue(listOf(adapterPosition, noti, result.throwable))
                 }
                 is Result.Loading -> {}
             }
@@ -76,19 +74,10 @@ class NotificationViewModel @Inject constructor(
                     _notifications.emit(noti)
                 }
                 is Result.Failure -> {
-                    _isMarkedFail.emit(result.throwable)
+                    _isFailure.emit(result.throwable)
                 }
                 is Result.Loading -> {}
             }
         }.launchIn(viewModelScope)
-    }
-
-    private fun getCurrentTimeString(): String {
-        val tz = TimeZone.getTimeZone("UTC")
-        val df: DateFormat =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
-
-        df.timeZone = tz
-        return df.format(Date())
     }
 }
