@@ -13,12 +13,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
 import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 
 @AndroidEntryPoint
@@ -27,6 +31,8 @@ class NotificationFragment : Fragment() {
     private val notificationAdapter = NotificationAdapter()
 
     private val viewModel by viewModels<NotificationViewModel>()
+
+    private val notificationList = ArrayList<Notification>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,8 +60,9 @@ class NotificationFragment : Fragment() {
 
         viewModel.run {
             lifecycleScope.launchWhenStarted {
-                notifications.collect {
-                    notificationAdapter.submitList(it)
+                notifications.collect { it ->
+                    notificationList.add(it)
+                    notificationAdapter.submitList(ArrayList(notificationList))
                 }
             }
         }

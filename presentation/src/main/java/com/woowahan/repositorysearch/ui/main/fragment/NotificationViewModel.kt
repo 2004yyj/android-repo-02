@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.model.*
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
+import com.woowahan.domain.notificationUseCase.GetSubjectUseCase
 import com.woowahan.domain.notificationUseCase.MarkNotificationAsReadUseCase
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,14 +20,14 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase,
-    @RetrofitModule.typeApi private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase
+    @RetrofitModule.typeApi private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
+    @RetrofitModule.typeApi private val getSubjectUseCase: GetSubjectUseCase
 ) : ViewModel() {
-    private val _notifications = MutableSharedFlow<List<Notification>>()
+    private val _notifications = MutableSharedFlow<Notification>()
     val notifications = _notifications.asSharedFlow()
 
     private val _isFailure = MutableSharedFlow<Throwable>()
     val isFailure = _isFailure.asSharedFlow()
-
 
     private val _isMarkedSuccess = MutableSharedFlow<Message>()
     val isMarkedSuccess = _isMarkedSuccess.asSharedFlow()
@@ -40,7 +41,9 @@ class NotificationViewModel @Inject constructor(
         noti.onEach { result ->
             when (result) {
                 is Result.Success -> {
-                    _notifications.emit(result.data)
+                    result.data.map {
+                        getSubject(it)
+                    }
                 }
                 is Result.Failure -> {
                     _isFailure.emit(result.throwable)
@@ -55,6 +58,21 @@ class NotificationViewModel @Inject constructor(
             when (result) {
                 is Result.Success -> {
                     _isMarkedSuccess.emit(result.data)
+                }
+                is Result.Failure -> {
+                    _isMarkedFail.emit(result.throwable)
+                }
+                is Result.Loading -> {}
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getSubject(noti: Notification) {
+        getSubjectUseCase.execute(noti).onEach { result ->
+            when (result) {
+                is Result.Success -> {
+                    noti.commentCnt = result.data.comments
+                    _notifications.emit(noti)
                 }
                 is Result.Failure -> {
                     _isMarkedFail.emit(result.throwable)
