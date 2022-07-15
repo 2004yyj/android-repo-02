@@ -1,5 +1,6 @@
 package com.woowahan.data.issue
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.woowahan.domain.model.Issue
@@ -18,7 +19,7 @@ class IssuePagingSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Issue> {
         return try {
-            val page = params.key ?: 0
+            val page = params.key ?: 1
             val issues = issueDataSourceImpl.getIssues(
                 state,
                 params.loadSize,
@@ -26,10 +27,11 @@ class IssuePagingSource @Inject constructor(
             )
             LoadResult.Page(
                 data = issues,
-                prevKey = if (page == 0) null else page - 1,
-                nextKey = if (page == issues.size) null else page + 1
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (issues.isEmpty()) null else page + 1
+
             )
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
