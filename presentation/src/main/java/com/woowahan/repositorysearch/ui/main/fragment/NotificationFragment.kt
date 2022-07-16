@@ -33,8 +33,6 @@ class NotificationFragment : Fragment() {
 
     private val viewModel by viewModels<NotificationViewModel>()
 
-    private val notificationList = ArrayList<Notification>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,9 +59,8 @@ class NotificationFragment : Fragment() {
 
         viewModel.run {
             lifecycleScope.launchWhenStarted {
-                notifications.collect { it ->
-                    notificationList.add(it)
-                    notificationAdapter.submitList(ArrayList(notificationList))
+                notifications.collect { notificationList ->
+                    notificationAdapter.submitList(notificationList)
                 }
             }
         }

@@ -61,8 +61,6 @@ class NotificationAdapter :
             override fun areContentsTheSame(oldItem: Notification, newItem: Notification): Boolean {
                 return oldItem == newItem
             }
-
-
         }
     }
 }

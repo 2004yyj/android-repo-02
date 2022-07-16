@@ -22,7 +22,7 @@ fun NotificationData.toModel(): Notification {
         title = this.subject.title,
         lastUpdate = this.updatedAt,
         repository = this.repository.name,
-        commentCnt = 5,
+        commentCnt = 0,
         profileUrl = this.repository.owner.avatarUrl,
         organization = this.repository.owner.name,
         subjectType = token[token.lastIndex - 1],
