@@ -19,15 +19,22 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    @RetrofitModule.typeAuth
-    fun provideAuthDataSource(@RetrofitModule.typeAuth authService: AuthService): AuthDataSourceImpl {
+    @RetrofitModule.typeGitHub
+    fun provideAuthDataSource(@RetrofitModule.typeGitHub authService: AuthService): AuthDataSourceImpl {
         return AuthDataSourceImpl(authService)
     }
 
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideNotificationDataSource(@RetrofitModule.typeApi notificationService: NotificationService): NotificationDataSourceImpl {
+    fun provideApiNotificationDataSource(@RetrofitModule.typeApi notificationService: NotificationService): NotificationDataSourceImpl {
+        return NotificationDataSourceImpl(notificationService)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeGitHub
+    fun provideGitHubNotificationDataSource(@RetrofitModule.typeGitHub notificationService: NotificationService): NotificationDataSourceImpl {
         return NotificationDataSourceImpl(notificationService)
     }
 

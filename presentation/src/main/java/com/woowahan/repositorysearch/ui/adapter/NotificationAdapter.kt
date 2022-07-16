@@ -12,6 +12,17 @@ import com.woowahan.repositorysearch.util.TimeFormatter
 
 class NotificationAdapter :
     ListAdapter<Notification, NotificationAdapter.NotificationViewHolder>(diffUtil) {
+    fun removeItem(position: Int) {
+        val currentList = this.currentList.toMutableList()
+        currentList.removeAt(position)
+        this.submitList(currentList)
+    }
+
+    fun restoreItem(notification: Notification, position: Int) {
+        val currentList = this.currentList.toMutableList()
+        currentList.add(position, notification)
+        this.submitList(currentList)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         //미리 만들어진 뷰홀더가 없는 경우 새로 생성하는 함수(레이아웃 생성)

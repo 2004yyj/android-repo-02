@@ -1,12 +1,9 @@
 package com.woowahan.repositorysearch.ui.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.model.GitHubToken
-import com.woowahan.domain.model.GitToken
 import com.woowahan.repositorysearch.BuildConfig
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    @RetrofitModule.typeAuth private val getGitHubAccessTokenUseCase: GetGitHubAccessTokenUseCase
+    @RetrofitModule.typeGitHub private val getGitHubAccessTokenUseCase: GetGitHubAccessTokenUseCase
 ) : ViewModel() {
     private val _token = MutableSharedFlow<GitHubToken>()
     val token = _token.asSharedFlow()

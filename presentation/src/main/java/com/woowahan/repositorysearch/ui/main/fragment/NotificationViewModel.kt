@@ -4,32 +4,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowahan.domain.model.GitToken
-import com.woowahan.domain.model.Notification
-import com.woowahan.domain.model.Result
-import com.woowahan.domain.model.User
+import com.woowahan.domain.model.*
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
-import com.woowahan.repositorysearch.BuildConfig
+import com.woowahan.domain.notificationUseCase.GetSubjectUseCase
+import com.woowahan.domain.notificationUseCase.MarkNotificationAsReadUseCase
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase
+    @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase,
+    @RetrofitModule.typeGitHub private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
+    @RetrofitModule.typeApi private val getSubjectUseCase: GetSubjectUseCase
 ) : ViewModel() {
-    private val _notifications = MutableSharedFlow<List<Notification>>()
+    private val _notifications = MutableSharedFlow<Notification>()
     val notifications = _notifications.asSharedFlow()
 
     private val _isFailure = MutableSharedFlow<Throwable>()
     val isFailure = _isFailure.asSharedFlow()
 
+    private var _markFailed = MutableLiveData<List<Any>>()
+    val markFailed: LiveData<List<Any>>
+        get() = _markFailed
 
     fun getNotifications() {
         val noti = getNotificationsUseCase.execute(1)
@@ -37,7 +41,37 @@ class NotificationViewModel @Inject constructor(
         noti.onEach { result ->
             when (result) {
                 is Result.Success -> {
-                    _notifications.emit(result.data)
+                    result.data.map {
+                        getSubject(it)
+                    }
+                }
+                is Result.Failure -> {
+                    _isFailure.emit(result.throwable)
+                }
+                is Result.Loading -> {}
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun markNotificationAsRead(adapterPosition: Int, noti: Notification) {
+        markNotificationAsReadUseCase.execute(noti.htmlUrl).onEach { result ->
+            when (result) {
+                is Result.Success -> {}
+                is Result.Failure -> {
+                    _markFailed.postValue(listOf(adapterPosition, noti, result.throwable))
+                }
+                is Result.Loading -> {}
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getSubject(noti: Notification) {
+        getSubjectUseCase.execute(noti).onEach { result ->
+            when (result) {
+                is Result.Success -> {
+                    noti.commentCnt = result.data.comments
+                    noti.htmlUrl = result.data.htmlUrl
+                    _notifications.emit(noti)
                 }
                 is Result.Failure -> {
                     _isFailure.emit(result.throwable)

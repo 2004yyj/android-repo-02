@@ -9,7 +9,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -18,15 +17,22 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    @RetrofitModule.typeAuth
-    fun provideAuthService(@RetrofitModule.typeAuth retrofit: Retrofit): AuthService {
+    @RetrofitModule.typeGitHub
+    fun provideAuthService(@RetrofitModule.typeGitHub retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
     @Provides
     @Singleton
     @RetrofitModule.typeApi
-    fun provideNotificationService(@RetrofitModule.typeApi retrofit: Retrofit): NotificationService {
+    fun provideApiNotificationService(@RetrofitModule.typeApi retrofit: Retrofit): NotificationService {
+        return retrofit.create(NotificationService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @RetrofitModule.typeGitHub
+    fun provideGitHubNotificationService(@RetrofitModule.typeGitHub retrofit: Retrofit): NotificationService {
         return retrofit.create(NotificationService::class.java)
     }
 

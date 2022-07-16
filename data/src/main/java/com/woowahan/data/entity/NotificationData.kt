@@ -15,12 +15,18 @@ data class NotificationData(
 )
 
 fun NotificationData.toModel(): Notification {
+    val token = this.subject.url.split("/")
+
     return Notification(
         id = this.id,
         title = this.subject.title,
         lastUpdate = this.updatedAt,
         repository = this.repository.name,
         commentCnt = 5,
-        profileUrl = this.repository.owner.avatarUrl
+        profileUrl = this.repository.owner.avatarUrl,
+        organization = this.repository.owner.name,
+        subjectType = token[token.lastIndex - 1],
+        subjectId = token.last(),
+        htmlUrl = ""
     )
 }

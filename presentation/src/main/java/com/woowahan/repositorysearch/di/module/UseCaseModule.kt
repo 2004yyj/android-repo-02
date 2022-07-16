@@ -5,6 +5,8 @@ import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.issueUseCase.GetIssueUseCase
 import com.woowahan.domain.model.Issue
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
+import com.woowahan.domain.notificationUseCase.GetSubjectUseCase
+import com.woowahan.domain.notificationUseCase.MarkNotificationAsReadUseCase
 import com.woowahan.domain.repository.AuthRepository
 import com.woowahan.domain.repository.IssueRepository
 import com.woowahan.domain.repository.NotificationRepository
@@ -21,8 +23,8 @@ import javax.inject.Singleton
 object UseCaseModule {
     @Singleton
     @Provides
-    @RetrofitModule.typeAuth
-    fun provideGetGitHubAccessTokenUseCase(@RetrofitModule.typeAuth repository: AuthRepository): GetGitHubAccessTokenUseCase {
+    @RetrofitModule.typeGitHub
+    fun provideGetGitHubAccessTokenUseCase(@RetrofitModule.typeGitHub repository: AuthRepository): GetGitHubAccessTokenUseCase {
         return GetGitHubAccessTokenUseCase(repository)
     }
 
@@ -31,6 +33,20 @@ object UseCaseModule {
     @RetrofitModule.typeApi
     fun provideGetNotificationsUseCase(@RetrofitModule.typeApi repository: NotificationRepository): GetNotificationsUseCase {
         return GetNotificationsUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeGitHub
+    fun provideMarkNotificationAsReadUseCase(@RetrofitModule.typeGitHub repository: NotificationRepository): MarkNotificationAsReadUseCase {
+        return MarkNotificationAsReadUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideGetSubjectUseCase(@RetrofitModule.typeApi repository: NotificationRepository): GetSubjectUseCase {
+        return GetSubjectUseCase(repository)
     }
 
     @Singleton
