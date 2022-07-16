@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.woowahan.domain.model.Notification
-import com.woowahan.repositorysearch.databinding.NotificationItemBinding
+import com.woowahan.repositorysearch.databinding.ItemNotificationBinding
 import com.woowahan.repositorysearch.util.TimeFormatter
 
 class NotificationAdapter :
@@ -16,7 +16,7 @@ class NotificationAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         //미리 만들어진 뷰홀더가 없는 경우 새로 생성하는 함수(레이아웃 생성)
         return NotificationViewHolder(
-            NotificationItemBinding.inflate(
+            ItemNotificationBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -29,7 +29,7 @@ class NotificationAdapter :
         holder.bind(currentList[position])
     }
 
-    inner class NotificationViewHolder(private val binding: NotificationItemBinding) :
+    inner class NotificationViewHolder(private val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(notification: Notification) {
