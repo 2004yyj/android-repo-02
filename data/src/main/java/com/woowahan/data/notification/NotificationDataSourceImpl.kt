@@ -13,7 +13,7 @@ class NotificationDataSourceImpl(override val service: NotificationService) :
         }
 
     suspend fun markNotificationAsRead(threadId: String) =
-        getData(service.markNotificationAsRead(threadId))
+        getMessage(service.markNotificationAsRead(threadId))
 
     suspend fun getSubject(organization: String, repository: String, type: String, id: String) =
         getData(service.getSubject(organization, repository, type, id)).toModel()
