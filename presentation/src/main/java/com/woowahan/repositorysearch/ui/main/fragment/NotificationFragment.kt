@@ -71,7 +71,7 @@ class NotificationFragment : Fragment() {
             val throwable = it[2] as Throwable
 
             notificationAdapter.restoreItem(notification, position)
-            Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
         }
 
         ItemTouchHelper(recyclerViewTouchCallback).attachToRecyclerView(binding.rvNotification)

@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase,
-    @RetrofitModule.typeGitHub private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
+    @RetrofitModule.typeApi private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
     @RetrofitModule.typeApi private val getSubjectUseCase: GetSubjectUseCase
 ) : ViewModel() {
     private val _notifications = MutableSharedFlow<List<Notification>>()
@@ -58,7 +58,7 @@ class NotificationViewModel @Inject constructor(
     }
 
     fun markNotificationAsRead(adapterPosition: Int, noti: Notification) {
-        markNotificationAsReadUseCase.execute(noti.htmlUrl).onEach { result ->
+        markNotificationAsReadUseCase.execute(noti.threadId).onEach { result ->
             when (result) {
                 is Result.Success -> {}
                 is Result.Failure -> {
