@@ -11,5 +11,6 @@ data class Notification(
     val organization: String,
     val subjectType: String,
     val subjectId: String,
-    var htmlUrl: String
+    var htmlUrl: String,
+    val threadId: String
 )
