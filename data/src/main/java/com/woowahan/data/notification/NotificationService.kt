@@ -13,10 +13,10 @@ interface NotificationService {
         @Query("page") page: Int
     ): Response<List<NotificationData>>
 
-    @GET("/{path}")
+    @PATCH("/notifications/threads/{threadId}")
     suspend fun markNotificationAsRead(
-        @Path("path", encoded = true) path: String
-    ): Response<String>
+        @Path("threadId") threadId: String
+    ): Response<Any?>
 
     @GET("/repos/{organization}/{repo}/{type}/{id}")
     suspend fun getSubject(

@@ -33,13 +33,6 @@ object DataSourceModule {
 
     @Singleton
     @Provides
-    @RetrofitModule.typeGitHub
-    fun provideGitHubNotificationDataSource(@RetrofitModule.typeGitHub notificationService: NotificationService): NotificationDataSourceImpl {
-        return NotificationDataSourceImpl(notificationService)
-    }
-
-    @Singleton
-    @Provides
     @RetrofitModule.typeApi
     fun provideUserDataSource(@RetrofitModule.typeApi userService: UserService): UserDataSourceImpl {
         return UserDataSourceImpl(userService)

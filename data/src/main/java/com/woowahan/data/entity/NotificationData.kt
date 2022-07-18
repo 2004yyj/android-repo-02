@@ -8,6 +8,7 @@ data class NotificationData(
     val id: String,
     val reason: String,
     val unread: Boolean,
+    val url: String,
     @SerializedName("updated_at")
     val updatedAt: String,
     val repository: RepositoryData,
@@ -27,6 +28,7 @@ fun NotificationData.toModel(): Notification {
         organization = this.repository.owner.name,
         subjectType = token[token.lastIndex - 1],
         subjectId = token.last(),
-        htmlUrl = ""
+        htmlUrl = "",
+        threadId = url.split("/").last()
     )
 }

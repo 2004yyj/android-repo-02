@@ -13,8 +13,8 @@ class NotificationRepositoryImpl @Inject constructor(
         return notificationDataSourceImpl.getNotifications(page)
     }
 
-    override suspend fun markNotificationAsRead(path: String): String {
-        return notificationDataSourceImpl.markNotificationAsRead(path)
+    override suspend fun markNotificationAsRead(threadId: String): String {
+        return notificationDataSourceImpl.markNotificationAsRead(threadId)
     }
 
     override suspend fun getSubject(

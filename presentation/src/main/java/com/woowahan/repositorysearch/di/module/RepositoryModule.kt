@@ -37,12 +37,6 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    @RetrofitModule.typeGitHub
-    fun provideGitHubNotificationRepository(@RetrofitModule.typeGitHub notificationDataSourceImpl: NotificationDataSourceImpl): NotificationRepository =
-        NotificationRepositoryImpl(notificationDataSourceImpl)
-
-    @Singleton
-    @Provides
     @RetrofitModule.typeApi
     fun provideUserRepository(@RetrofitModule.typeApi userDataSourceImpl: UserDataSourceImpl): UserRepository =
         UserRepositoryImpl(userDataSourceImpl)
