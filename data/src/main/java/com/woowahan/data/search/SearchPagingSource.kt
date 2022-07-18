@@ -36,6 +36,8 @@ class SearchPagingSource(
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
+        } catch (e: Throwable) {
+            LoadResult.Error(e)
         }
     }
 }
