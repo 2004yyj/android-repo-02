@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
 import com.woowahan.repositorysearch.R
@@ -22,6 +23,7 @@ import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -75,8 +77,8 @@ class SearchFragment : Fragment() {
         )
 
         searchAdapter.addLoadStateListener {
-            pbReload.isVisible = it.refresh is LoadState.Loading
-            rvSearch.isVisible = it.refresh !is LoadState.Loading
+            pbReload.isVisible = it.refresh is LoadState.Loading && edtSearch.text.isNotEmpty()
+            rvSearch.isVisible = it.refresh is LoadState.NotLoading && edtSearch.text.isNotEmpty()
         }
     }
 
@@ -85,10 +87,13 @@ class SearchFragment : Fragment() {
             it?.let {
                 val count = it.length
                 ibtClear.isVisible = count > 0
+                pbReload.isVisible = count > 0
+                linearRvEmpty.isVisible = count == 0
                 if (count > 0) {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     viewModel.getSearchResult(it.toString())
                 } else {
+                    rvSearch.isVisible = false
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
                 }
             }
