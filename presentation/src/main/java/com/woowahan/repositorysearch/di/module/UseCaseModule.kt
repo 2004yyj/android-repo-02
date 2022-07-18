@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.issueUseCase.GetIssueUseCase
 import com.woowahan.domain.model.Issue
+import com.woowahan.domain.model.Notification
 import com.woowahan.domain.model.Repository
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
 import com.woowahan.domain.notificationUseCase.GetSubjectUseCase
@@ -30,21 +31,21 @@ object UseCaseModule {
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideGetNotificationsUseCase(@RetrofitModule.typeApi repository: NotificationRepository): GetNotificationsUseCase {
+    fun provideGetNotificationsUseCase(@RetrofitModule.typeApi repository: NotificationRepository<PagingData<Notification>>): GetNotificationsUseCase<PagingData<Notification>> {
         return GetNotificationsUseCase(repository)
     }
 
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideMarkNotificationAsReadUseCase(@RetrofitModule.typeApi repository: NotificationRepository): MarkNotificationAsReadUseCase {
+    fun provideMarkNotificationAsReadUseCase(@RetrofitModule.typeApi repository: NotificationRepository<PagingData<Notification>>): MarkNotificationAsReadUseCase<PagingData<Notification>> {
         return MarkNotificationAsReadUseCase(repository)
     }
 
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideGetSubjectUseCase(@RetrofitModule.typeApi repository: NotificationRepository): GetSubjectUseCase {
+    fun provideGetSubjectUseCase(@RetrofitModule.typeApi repository: NotificationRepository<Any?>): GetSubjectUseCase {
         return GetSubjectUseCase(repository)
     }
 

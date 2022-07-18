@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class GetSubjectUseCase(private val repository: NotificationRepository) {
+class GetSubjectUseCase(private val repository: NotificationRepository<Any?>) {
     fun execute(notification: Notification) = flow {
         emit(Result.Loading)
         try {

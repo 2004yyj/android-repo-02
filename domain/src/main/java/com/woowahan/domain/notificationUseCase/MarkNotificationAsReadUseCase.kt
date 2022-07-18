@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class MarkNotificationAsReadUseCase(private val repository: NotificationRepository) {
+class MarkNotificationAsReadUseCase<T>(private val repository: NotificationRepository<T>) {
     fun execute(threadId: String) = flow {
         emit(Result.Loading)
         try {
