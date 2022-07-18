@@ -1,5 +1,6 @@
 package com.woowahan.repositorysearch.ui.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.woowahan.domain.model.Repository
 import com.woowahan.repositorysearch.databinding.ItemSearchBinding
+import com.woowahan.repositorysearch.util.ColorRand
 import com.woowahan.repositorysearch.util.StarFormatter
 
 class SearchResultAdapter :
     PagingDataAdapter<Repository, SearchResultAdapter.ItemSearchViewHolder>(diffUtil) {
+
+    private val colorMap = hashMapOf<String, Int>()
+
     inner class ItemSearchViewHolder(private val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Repository) = with(binding) {
@@ -25,8 +30,22 @@ class SearchResultAdapter :
                 tvDescription.visibility = View.VISIBLE
                 tvDescription.text = item.description
             }
-            tvLanguage.text = item.language
             tvStarred.text = StarFormatter.convert(item.starred)
+
+            if (item.language != null) {
+                tvLanguage.text = item.language
+                if (!colorMap.containsKey(item.language))
+                    colorMap[item.language!!] = ColorRand()
+                cvLanguage.setCardBackgroundColor(colorMap[item.language!!]?.let {
+                    ColorStateList.valueOf(it)
+                })
+
+                tvLanguage.visibility = View.VISIBLE
+                cvLanguage.visibility = View.VISIBLE
+            } else {
+                tvLanguage.visibility = View.GONE
+                cvLanguage.visibility = View.GONE
+            }
         }
     }
 

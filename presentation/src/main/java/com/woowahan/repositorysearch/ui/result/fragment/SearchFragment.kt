@@ -4,19 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
+import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentSearchBinding
+import com.woowahan.repositorysearch.ui.adapter.RecyclerViewStateAdapter
 import com.woowahan.repositorysearch.ui.adapter.SearchResultAdapter
 import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
+import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -26,9 +33,6 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private val searchAdapter: SearchResultAdapter by lazy {
         SearchResultAdapter()
-    }
-    private val loading: LoadingDialogFragment by lazy {
-        LoadingDialogFragment()
     }
 
     override fun onCreateView(
@@ -48,10 +52,11 @@ class SearchFragment : Fragment() {
         initFlow()
     }
 
-    private fun initFlow() {
+    private fun initFlow() = with(binding) {
         lifecycleScope.launchWhenStarted {
             viewModel.repositories.collect {
                 searchAdapter.submitData(lifecycle, it)
+                rvSearch.scrollToPosition(0)
             }
         }
     }
@@ -60,18 +65,20 @@ class SearchFragment : Fragment() {
         ibtClear.setOnClickListener {
             edtSearch.setText("")
         }
-
-        rvSearch.adapter = searchAdapter
+        rvSearch.addItemDecoration(DividerItemDecoration(
+            Dp2Px.convert(requireContext(), 1F),
+            Dp2Px.convert(requireContext(), 24F),
+            ContextCompat.getColor(requireContext(), R.color.navy)
+        ))
+        rvSearch.adapter = searchAdapter.withLoadStateFooter(
+            RecyclerViewStateAdapter {
+                searchAdapter.retry()
+            }
+        )
 
         searchAdapter.addLoadStateListener {
-            when (it.append) {
-                is LoadState.Loading -> {
-                    loading.show(parentFragmentManager, "Loading")
-                }
-                is LoadState.NotLoading -> {
-                    loading.dismiss()
-                }
-            }
+            pbReload.isVisible = it.refresh is LoadState.Loading && edtSearch.text.isNotEmpty()
+            rvSearch.isVisible = it.refresh is LoadState.NotLoading && edtSearch.text.isNotEmpty()
         }
     }
 
@@ -79,14 +86,15 @@ class SearchFragment : Fragment() {
         edtSearch.doAfterTextChanged {
             it?.let {
                 val count = it.length
+                ibtClear.isVisible = count > 0
+                pbReload.isVisible = count > 0
+                linearRvEmpty.isVisible = count == 0
                 if (count > 0) {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                    ibtClear.visibility = View.VISIBLE
-
                     viewModel.getSearchResult(it.toString())
                 } else {
+                    rvSearch.isVisible = false
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
-                    ibtClear.visibility = View.GONE
                 }
             }
         }
