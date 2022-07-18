@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 object RetrofitModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
-    annotation class typeAuth
+    annotation class typeGitHub
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -25,8 +26,8 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @typeAuth
-    fun provideAuthOkHttpClient(): OkHttpClient {
+    @typeGitHub
+    fun provideGitHubOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
@@ -44,10 +45,11 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @typeAuth
-    fun provideAuthRetrofit(@typeAuth okHttpClient: OkHttpClient): Retrofit {
+    @typeGitHub
+    fun provideAuthRetrofit(@typeGitHub okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://github.com")
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

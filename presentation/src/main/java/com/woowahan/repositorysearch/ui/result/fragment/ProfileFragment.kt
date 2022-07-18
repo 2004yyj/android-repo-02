@@ -6,15 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.woowahan.repositorysearch.R
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.woowahan.repositorysearch.databinding.FragmentProfileBinding
+import com.woowahan.repositorysearch.extension.setUnderlineText
+import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileFragment(bundle: Bundle) : Fragment() {
-    init { arguments = bundle }
+@AndroidEntryPoint
+class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var loadingDialog: LoadingDialogFragment
     private val sharedViewModel: ResultViewModel by activityViewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +35,47 @@ class ProfileFragment(bundle: Bundle) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setPageName(ResultActivity.PageName.Profile.javaClass.simpleName)
+
+        init()
+        initFlow()
+    }
+
+    private fun init() {
+        loadingDialog = LoadingDialogFragment()
+        viewModel.getUser()
+    }
+
+    private fun initFlow() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.user.collect {
+                binding.ivUserIcon.load(it.avatar)
+                binding.tvLogin.text = it.login
+                binding.tvName.text = it.name
+                binding.tvType.text = it.company
+                binding.tvLocation.text = it.location
+                binding.tvLink.setUnderlineText(it.blog)
+                binding.tvMail.setUnderlineText(it.mail)
+                binding.tvFollowers.text = it.followers.toString()
+                binding.tvFollowing.text = it.following.toString()
+                binding.tvRepositories.text = it.repositories.toString()
+                binding.tvStarred.text = it.starredSize.toString()
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isLoading.collect { loading ->
+                if (loading) {
+                    loadingDialog.show(
+                        requireActivity().supportFragmentManager,
+                        "ProfileFragment"
+                    )
+                    binding.constraintProfile.visibility = View.GONE
+                } else {
+                    loadingDialog.dismiss()
+                    binding.constraintProfile.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     companion object {

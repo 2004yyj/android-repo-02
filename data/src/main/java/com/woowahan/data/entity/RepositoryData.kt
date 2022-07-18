@@ -8,4 +8,6 @@ data class RepositoryData(
     val owner: OwnerData,
     @SerializedName("comments_url")
     val commentsUrl: String,
+    @SerializedName("full_name")
+    val fullName: String
 )

@@ -2,6 +2,8 @@ package com.woowahan.repositorysearch.di.module
 
 import com.woowahan.data.auth.AuthDataSourceImpl
 import com.woowahan.data.auth.AuthService
+import com.woowahan.data.issue.IssueDataSourceImpl
+import com.woowahan.data.issue.IssueService
 import com.woowahan.data.notification.NotificationDataSourceImpl
 import com.woowahan.data.notification.NotificationService
 import com.woowahan.data.user.UserDataSourceImpl
@@ -17,15 +19,15 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    @RetrofitModule.typeAuth
-    fun provideAuthDataSource(@RetrofitModule.typeAuth authService: AuthService): AuthDataSourceImpl {
+    @RetrofitModule.typeGitHub
+    fun provideAuthDataSource(@RetrofitModule.typeGitHub authService: AuthService): AuthDataSourceImpl {
         return AuthDataSourceImpl(authService)
     }
 
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideNotificationDataSource(@RetrofitModule.typeApi notificationService: NotificationService): NotificationDataSourceImpl {
+    fun provideApiNotificationDataSource(@RetrofitModule.typeApi notificationService: NotificationService): NotificationDataSourceImpl {
         return NotificationDataSourceImpl(notificationService)
     }
 
@@ -36,4 +38,10 @@ object DataSourceModule {
         return UserDataSourceImpl(userService)
     }
 
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideIssueDataSource(@RetrofitModule.typeApi issueService: IssueService): IssueDataSourceImpl {
+        return IssueDataSourceImpl(issueService)
+    }
 }

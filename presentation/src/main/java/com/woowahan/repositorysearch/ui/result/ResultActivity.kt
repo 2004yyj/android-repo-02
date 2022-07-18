@@ -15,8 +15,10 @@ import com.woowahan.repositorysearch.ui.result.fragment.SearchFragment
 import com.woowahan.repositorysearch.util.add
 import com.woowahan.repositorysearch.util.onBackPressed
 import com.woowahan.repositorysearch.util.replace
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 
+@AndroidEntryPoint
 class ResultActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityResultBinding.inflate(layoutInflater) }
@@ -37,12 +39,10 @@ class ResultActivity : AppCompatActivity() {
 
         when(intent.getSerializableExtra(START_FRAGMENT_NAME) as PageName) {
             is PageName.Profile -> {
-                val login = intent.getStringExtra(LOGIN_VALUE)
                 fragmentManager.replace(
                     ProfileFragment::class.java,
                     fragmentContainerView.id,
                     ProfileFragment.TAG,
-                    bundleOf(LOGIN_VALUE to login)
                 )
             }
             is PageName.Search -> {
@@ -65,18 +65,9 @@ class ResultActivity : AppCompatActivity() {
         const val LOGIN_VALUE = "LOGIN"
         private const val START_FRAGMENT_NAME = "START_FRAGMENT"
 
-        // 검색 첫 화면
-        fun getIntent(context: Context, pageName: PageName.Search): Intent {
+        fun getIntent(context: Context, pageName: PageName): Intent {
             return Intent(context, ResultActivity::class.java).apply {
                 putExtra(START_FRAGMENT_NAME, pageName)
-            }
-        }
-
-        // 프로필 첫 화면
-        fun getIntent(context: Context, pageName: PageName.Profile, login: String): Intent {
-            return Intent(context, ResultActivity::class.java).apply {
-                putExtra(START_FRAGMENT_NAME, pageName)
-                putExtra(LOGIN_VALUE, login)
             }
         }
     }

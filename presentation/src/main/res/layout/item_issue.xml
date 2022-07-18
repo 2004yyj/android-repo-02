@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/black"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_issue_open" />
+
+    <TextView
+        android:id="@+id/tv_repository_name"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:paddingEnd="10dp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:fontFamily="@font/ko_pub_dotum"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_state"
+        app:layout_constraintStart_toEndOf="@+id/iv_state"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="sam/whatsinmygithub" />
+
+    <TextView
+        android:id="@+id/tv_issue_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ko_pub_dotum"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_repository_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_updated_at"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/tv_repository_name"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="#1" />
+
+    <TextView
+        android:id="@+id/tv_updated_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/ko_pub_dotum"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1일 전"/>
+
+    <TextView
+        android:id="@+id/tv_issue_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/ko_pub_dotum"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_repository_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_repository_name"
+        tools:text="프로젝트 요구사항 및 참고자료" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,25 +1,28 @@
 package com.woowahan.data.notification
 
-import com.woowahan.data.auth.AuthRepositoryImpl
-import com.woowahan.data.entity.NotificationData
-import com.woowahan.data.entity.toModel
+import com.woowahan.domain.model.Message
 import com.woowahan.domain.model.Notification
+import com.woowahan.domain.model.Subject
 import com.woowahan.domain.repository.NotificationRepository
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
 ) : NotificationRepository {
     override suspend fun getNotifications(page: Int): List<Notification> {
-        val notificationDatas = notificationDataSourceImpl.getNotifications(page)
-        val result = ArrayList<Notification>()
+        return notificationDataSourceImpl.getNotifications(page)
+    }
 
-        for (notificationData in notificationDatas) {
-            result.add(notificationData)
-        }
+    override suspend fun markNotificationAsRead(threadId: String): String {
+        return notificationDataSourceImpl.markNotificationAsRead(threadId)
+    }
 
-        return result
+    override suspend fun getSubject(
+        organization: String,
+        repository: String,
+        type: String,
+        id: String
+    ): Subject {
+        return notificationDataSourceImpl.getSubject(organization, repository, type, id)
     }
 }
