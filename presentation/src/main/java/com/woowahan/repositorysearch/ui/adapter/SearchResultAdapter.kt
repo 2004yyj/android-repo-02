@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.woowahan.domain.model.Repository
 import com.woowahan.repositorysearch.databinding.ItemSearchBinding
+import com.woowahan.repositorysearch.util.StarFormatter
 
 class SearchResultAdapter :
     PagingDataAdapter<Repository, SearchResultAdapter.ItemSearchViewHolder>(diffUtil) {
@@ -25,7 +26,7 @@ class SearchResultAdapter :
                 tvDescription.text = item.description
             }
             tvLanguage.text = item.language
-            tvStarred.text = item.starred.toString()
+            tvStarred.text = StarFormatter.convert(item.starred)
         }
     }
 
