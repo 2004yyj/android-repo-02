@@ -9,17 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.domain.model.Notification
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
 import com.woowahan.repositorysearch.ui.adapter.NotificationAdapter
+import com.woowahan.repositorysearch.ui.adapter.RecyclerViewStateAdapter
 import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
 import com.woowahan.repositorysearch.ui.recyclerview.SwipeTouchHelper
+import com.woowahan.repositorysearch.ui.result.ResultActivity
+import com.woowahan.repositorysearch.ui.result.ResultViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -30,7 +36,7 @@ import kotlin.collections.LinkedHashMap
 @AndroidEntryPoint
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
-    private val notificationAdapter = NotificationAdapter()
+    private val notificationAdapter: NotificationAdapter by lazy { NotificationAdapter() }
 
     private val viewModel by viewModels<NotificationViewModel>()
 
@@ -44,56 +50,52 @@ class NotificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.rvNotification.adapter = notificationAdapter
-
-        val customDecoration =
-            DividerItemDecoration(
-                Dp2Px.convert(requireContext(), 1F),
-                Dp2Px.convert(requireContext(), 24F),
-                ContextCompat.getColor(requireContext(), R.color.navy)
-            )
-        binding.rvNotification.addItemDecoration(customDecoration)
-
-        viewModel.getNotifications()
-
-        viewModel.run {
-            lifecycleScope.launchWhenStarted {
-                notifications.collect { notificationList ->
-                    notificationAdapter.submitList(notificationList)
-                }
-            }
-
-            lifecycleScope.launchWhenStarted {
-                isFailure.collect { throwable ->
-                    Toast.makeText(
-                        requireContext(),
-                        "Failed to get notifications: Caused By ${throwable.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
 
         viewModel.markFailed.observe(viewLifecycleOwner) {
             val position = it[0] as Int
             val notification = it[1] as Notification
             val throwable = it[2] as Throwable
 
-            notificationAdapter.restoreItem(notification, position)
             Toast.makeText(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT)
                 .show()
         }
 
         ItemTouchHelper(SwipeTouchHelper {
-            viewModel.markNotificationAsRead(
-                it,
-                notificationAdapter.currentList[it]
-            )
-            notificationAdapter.removeItem(it)
+//            viewModel.markNotificationAsRead(
+//                it,
+//                notificationAdapter.currentList[it]
+//            )
         }).attachToRecyclerView(binding.rvNotification)
+
+        init()
+        initFlow()
     }
 
+    private fun initFlow() = with(binding) {
+        lifecycleScope.launchWhenStarted {
+            viewModel.notifications.collect {
+                notificationAdapter.submitData(lifecycle, it)
+                rvNotification.scrollToPosition(0)
+            }
+        }
+    }
 
+    private fun init() = with(binding) {
+        val customDecoration =
+            DividerItemDecoration(
+                Dp2Px.convert(requireContext(), 1F),
+                Dp2Px.convert(requireContext(), 24F),
+                ContextCompat.getColor(requireContext(), R.color.navy)
+            )
+        rvNotification.addItemDecoration(customDecoration)
+
+        rvNotification.adapter = notificationAdapter.withLoadStateFooter(
+            RecyclerViewStateAdapter {
+                notificationAdapter.retry()
+            }
+        )
+
+        viewModel.getNotifications()
+    }
 }
