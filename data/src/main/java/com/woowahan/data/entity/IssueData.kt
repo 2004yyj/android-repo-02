@@ -9,7 +9,7 @@ data class IssueData(
     val number: Int,
     val state: String,
     val repository: RepositoryData,
-    @SerializedName("created_at")
+    @SerializedName("updated_at")
     val updatedAt: String,
 )
 
