@@ -16,7 +16,7 @@ interface NotificationService {
     @PATCH("/notifications/threads/{threadId}")
     suspend fun markNotificationAsRead(
         @Path("threadId") threadId: String
-    ): Response<String>
+    ): Response<Any?>
 
     @GET("/repos/{organization}/{repo}/{type}/{id}")
     suspend fun getSubject(
