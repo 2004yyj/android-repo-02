@@ -10,7 +10,7 @@ data class SubjectData(
     val htmlUrl: String,
     val comments: Int,
     val type: String,
-    val id: String
+    val id: String?
 )
 
 fun SubjectData.toModel(): Subject {
