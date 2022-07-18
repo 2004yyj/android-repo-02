@@ -12,7 +12,7 @@ data class RepositoryData(
     val commentsUrl: String,
     @SerializedName("full_name")
     val fullName: String,
-    val language: String,
+    val language: String?,
     var starred: Int
 )
 
