@@ -1,23 +1,35 @@
 package com.woowahan.repositorysearch.ui.result.fragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentSearchBinding
+import com.woowahan.repositorysearch.ui.adapter.SearchResultAdapter
+import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private val sharedViewModel: ResultViewModel by activityViewModels()
+    private val viewModel: SearchViewModel by viewModels()
+    private val searchAdapter: SearchResultAdapter by lazy {
+        SearchResultAdapter()
+    }
+    private val loading: LoadingDialogFragment by lazy {
+        LoadingDialogFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +45,33 @@ class SearchFragment : Fragment() {
         sharedViewModel.setPageName(ResultActivity.PageName.Search.javaClass.simpleName)
         initEditText()
         init()
+        initFlow()
+    }
+
+    private fun initFlow() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.repositories.collect {
+                searchAdapter.submitData(lifecycle, it)
+            }
+        }
     }
 
     private fun init() = with(binding) {
         ibtClear.setOnClickListener {
             edtSearch.setText("")
+        }
+
+        rvSearch.adapter = searchAdapter
+
+        searchAdapter.addLoadStateListener {
+            when (it.append) {
+                is LoadState.Loading -> {
+                    loading.show(parentFragmentManager, "Loading")
+                }
+                is LoadState.NotLoading -> {
+                    loading.dismiss()
+                }
+            }
         }
     }
 
@@ -48,6 +82,8 @@ class SearchFragment : Fragment() {
                 if (count > 0) {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     ibtClear.visibility = View.VISIBLE
+
+                    viewModel.getSearchResult(it.toString())
                 } else {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
                     ibtClear.visibility = View.GONE
