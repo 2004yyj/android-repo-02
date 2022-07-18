@@ -50,10 +50,11 @@ class SearchFragment : Fragment() {
         initFlow()
     }
 
-    private fun initFlow() {
+    private fun initFlow() = with(binding) {
         lifecycleScope.launchWhenStarted {
             viewModel.repositories.collect {
                 searchAdapter.submitData(lifecycle, it)
+                rvSearch.scrollToPosition(0)
             }
         }
     }
@@ -74,8 +75,8 @@ class SearchFragment : Fragment() {
         )
 
         searchAdapter.addLoadStateListener {
-            pbReload.isVisible =
-                it.source.refresh is LoadState.Loading
+            pbReload.isVisible = it.refresh is LoadState.Loading
+            rvSearch.isVisible = it.refresh !is LoadState.Loading
         }
     }
 
@@ -83,14 +84,12 @@ class SearchFragment : Fragment() {
         edtSearch.doAfterTextChanged {
             it?.let {
                 val count = it.length
+                ibtClear.isVisible = count > 0
                 if (count > 0) {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                    ibtClear.visibility = View.VISIBLE
-
                     viewModel.getSearchResult(it.toString())
                 } else {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
-                    ibtClear.visibility = View.GONE
                 }
             }
         }
