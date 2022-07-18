@@ -15,6 +15,7 @@ import androidx.paging.LoadState
 import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentSearchBinding
+import com.woowahan.repositorysearch.ui.adapter.RecyclerViewStateAdapter
 import com.woowahan.repositorysearch.ui.adapter.SearchResultAdapter
 import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
@@ -30,9 +31,6 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private val searchAdapter: SearchResultAdapter by lazy {
         SearchResultAdapter()
-    }
-    private val loading: LoadingDialogFragment by lazy {
-        LoadingDialogFragment()
     }
 
     override fun onCreateView(
@@ -69,7 +67,11 @@ class SearchFragment : Fragment() {
             Dp2Px.convert(requireContext(), 24F),
             ContextCompat.getColor(requireContext(), R.color.navy)
         ))
-        rvSearch.adapter = searchAdapter
+        rvSearch.adapter = searchAdapter.withLoadStateFooter(
+            RecyclerViewStateAdapter {
+                searchAdapter.retry()
+            }
+        )
 
         searchAdapter.addLoadStateListener {
             pbReload.isVisible =
