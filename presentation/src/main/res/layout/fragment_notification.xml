@@ -7,6 +7,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.fragment.IssueFragment">
 
+        <include
+            android:id="@+id/layout_load_error_checker"
+            layout="@layout/layout_load_error_checker" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notification"
             android:layout_width="match_parent"

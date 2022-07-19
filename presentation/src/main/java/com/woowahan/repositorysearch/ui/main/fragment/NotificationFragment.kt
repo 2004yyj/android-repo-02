@@ -96,6 +96,26 @@ class NotificationFragment : Fragment() {
             }
         )
 
+
+        layoutLoadErrorChecker.root.visibility = View.VISIBLE
+        layoutLoadErrorChecker.btnErrorRetry.setOnClickListener {
+            notificationAdapter.retry()
+        }
+        notificationAdapter.addLoadStateListener {
+            with(layoutLoadErrorChecker) {
+                pbReload.isVisible = it.refresh is LoadState.Loading
+                btnErrorRetry.isVisible = it.refresh is LoadState.Error
+                tvErrorCause.isVisible = it.refresh is LoadState.Error
+                if (it.refresh is LoadState.Error) {
+                    tvErrorCause.text =
+                        context?.getString(
+                            R.string.error,
+                            (it.refresh as LoadState.Error).error.message
+                        )
+                }
+            }
+        }
+
         viewModel.getNotifications()
     }
 }
