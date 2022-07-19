@@ -21,6 +21,7 @@ import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -31,6 +32,7 @@ class SearchFragment : Fragment() {
     private val searchAdapter: SearchResultAdapter by lazy {
         SearchResultAdapter()
     }
+    private var timer = Timer()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,10 +66,10 @@ class SearchFragment : Fragment() {
         }
         rvSearch.addItemDecoration(
             DividerItemDecoration(
-            Dp2Px.convert(requireContext(), 1F),
-            Dp2Px.convert(requireContext(), 24F),
-            ContextCompat.getColor(requireContext(), R.color.navy)
-        )
+                Dp2Px.convert(requireContext(), 1F),
+                Dp2Px.convert(requireContext(), 24F),
+                ContextCompat.getColor(requireContext(), R.color.navy)
+            )
         )
         rvSearch.adapter = searchAdapter.withLoadStateFooter(
             RecyclerViewStateAdapter {
@@ -103,9 +105,17 @@ class SearchFragment : Fragment() {
                 ibtClear.isVisible = count > 0
                 linearRvEmpty.isVisible = count == 0
                 layoutLoadErrorChecker.root.isVisible = count > 0
+
+                timer.cancel()
                 if (count > 0) {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                    viewModel.getSearchResult(it.toString())
+                    timer = Timer()
+                    timer.schedule(object : TimerTask() {
+                        override fun run() {
+                            viewModel.getSearchResult(it.toString())
+                        }
+
+                    }, 700)
                 } else {
                     rvSearch.isVisible = false
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
