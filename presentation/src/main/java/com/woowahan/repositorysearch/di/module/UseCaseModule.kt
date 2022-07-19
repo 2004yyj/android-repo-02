@@ -4,13 +4,12 @@ import androidx.paging.PagingData
 import com.woowahan.domain.authUseCase.GetGitHubAccessTokenUseCase
 import com.woowahan.domain.issueUseCase.GetIssueUseCase
 import com.woowahan.domain.model.Issue
+import com.woowahan.domain.model.Repository
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
 import com.woowahan.domain.notificationUseCase.GetSubjectUseCase
 import com.woowahan.domain.notificationUseCase.MarkNotificationAsReadUseCase
-import com.woowahan.domain.repository.AuthRepository
-import com.woowahan.domain.repository.IssueRepository
-import com.woowahan.domain.repository.NotificationRepository
-import com.woowahan.domain.repository.UserRepository
+import com.woowahan.domain.repository.*
+import com.woowahan.domain.searchUseCase.GetSearchResultUseCase
 import com.woowahan.domain.userUseCase.GetUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -61,5 +60,12 @@ object UseCaseModule {
     @RetrofitModule.typeApi
     fun provideGetIssueUseCase(@RetrofitModule.typeApi repository: IssueRepository<PagingData<Issue>>): GetIssueUseCase<PagingData<Issue>> {
         return GetIssueUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideGetSearchResultUseCase(@RetrofitModule.typeApi repository: SearchRepository<PagingData<Repository>>): GetSearchResultUseCase<PagingData<Repository>> {
+        return GetSearchResultUseCase(repository)
     }
 }

@@ -12,4 +12,6 @@
     <string name="starred">Starred</string>
     <string name="filter">Filter</string>
     <string name="option">Option</string>
+    <string name="search_github">Search GitHub</string>
+    <string name="error">Error: %s</string>
 </resources>

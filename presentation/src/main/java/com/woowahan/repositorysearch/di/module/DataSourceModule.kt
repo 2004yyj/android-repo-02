@@ -6,6 +6,8 @@ import com.woowahan.data.issue.IssueDataSourceImpl
 import com.woowahan.data.issue.IssueService
 import com.woowahan.data.notification.NotificationDataSourceImpl
 import com.woowahan.data.notification.NotificationService
+import com.woowahan.data.search.SearchDataSourceImpl
+import com.woowahan.data.search.SearchService
 import com.woowahan.data.user.UserDataSourceImpl
 import com.woowahan.data.user.UserService
 import dagger.Module
@@ -43,5 +45,12 @@ object DataSourceModule {
     @RetrofitModule.typeApi
     fun provideIssueDataSource(@RetrofitModule.typeApi issueService: IssueService): IssueDataSourceImpl {
         return IssueDataSourceImpl(issueService)
+    }
+
+    @Singleton
+    @Provides
+    @RetrofitModule.typeApi
+    fun provideSearchDataSource(@RetrofitModule.typeApi searchService: SearchService): SearchDataSourceImpl {
+        return SearchDataSourceImpl(searchService)
     }
 }

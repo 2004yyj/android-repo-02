@@ -11,4 +11,7 @@ class UserDataSourceImpl @Inject constructor(
     suspend fun getUser() = getData(service.getUser()).toModel()
     suspend fun getUserStarredSize(username: String) =
         getData(service.getUserStarred(username)).size
+
+    suspend fun getRepoStarred(owners: String, repo: String) =
+        getData(service.getRepoStarred(owners, repo)).size
 }

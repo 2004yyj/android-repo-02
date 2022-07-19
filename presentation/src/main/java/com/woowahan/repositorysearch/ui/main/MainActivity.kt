@@ -82,7 +82,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         searchMenu.setOnMenuItemClickListener {
-            // 검색 버튼 클릭 시
+            val intent = ResultActivity.getIntent(this, ResultActivity.PageName.Search)
+            startActivity(intent)
             return@setOnMenuItemClickListener true
         }
     }

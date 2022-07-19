@@ -3,6 +3,7 @@ package com.woowahan.repositorysearch.di.module
 import com.woowahan.data.auth.AuthService
 import com.woowahan.data.issue.IssueService
 import com.woowahan.data.notification.NotificationService
+import com.woowahan.data.search.SearchService
 import com.woowahan.data.user.UserService
 import dagger.Module
 import dagger.Provides
@@ -41,5 +42,12 @@ object ServiceModule {
     @RetrofitModule.typeApi
     fun provideIssueService(@RetrofitModule.typeApi retrofit: Retrofit): IssueService {
         return retrofit.create(IssueService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @RetrofitModule.typeApi
+    fun provideSearchService(@RetrofitModule.typeApi retrofit: Retrofit): SearchService {
+        return retrofit.create(SearchService::class.java)
     }
 }
