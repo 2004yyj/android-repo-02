@@ -18,8 +18,8 @@ class SearchRepositoryImpl(
     ): Flow<PagingData<Repository>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10,
-                initialLoadSize = 10,
+                pageSize = size,
+                initialLoadSize = size,
                 enablePlaceholders = false
             ), pagingSourceFactory = { SearchPagingSource(searchDataSourceImpl, userDataSourceImpl, query, size) }
         ).flow
