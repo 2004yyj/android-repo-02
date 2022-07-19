@@ -1,6 +1,7 @@
 package com.woowahan.repositorysearch.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -16,14 +17,38 @@ class NotificationAdapter :
     inner class NotificationViewHolder(private val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(notification: Notification) {
-            binding.tvNotificationTitle.text = notification.title
-            binding.tvCommentCnt.text = notification.commentCnt.toString()
-            binding.tvRecentUpdate.text = TimeFormatter.toRelativeTime(notification.lastUpdate)
-            binding.tvRepositoryName.text = notification.repository
-            binding.layoutUserIcon.ivUserIcon.load(notification.profileUrl)
+        fun bind(notification: Notification) = with(binding) {
+            if (!notification.read) {
+                tvNotificationTitle.text = notification.title
+                tvCommentCnt.text = notification.commentCnt.toString()
+                tvRecentUpdate.text = TimeFormatter.toRelativeTime(notification.lastUpdate)
+                tvRepositoryName.text = notification.repository
+                layoutUserIcon.ivUserIcon.load(notification.profileUrl)
+
+                binding.root.visibility = View.VISIBLE
+                binding.root.layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            } else {
+                binding.root.visibility = View.GONE
+                binding.root.layoutParams = RecyclerView.LayoutParams(0, 0)
+            }
         }
     }
+
+
+    fun markNotificationAsRead(position: Int): String? {
+        snapshot()[position]?.read = true
+        notifyItemChanged(position)
+        return snapshot()[position]?.id
+    }
+
+    fun restoreNotification(position: Int) {
+        snapshot()[position]?.read = false
+        notifyItemChanged(position)
+    }
+
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Notification>() {

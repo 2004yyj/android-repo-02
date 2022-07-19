@@ -15,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.domain.model.Notification
@@ -54,18 +55,17 @@ class NotificationFragment : Fragment() {
 
         viewModel.markFailed.observe(viewLifecycleOwner) {
             val position = it[0] as Int
-            val notification = it[1] as Notification
-            val throwable = it[2] as Throwable
+            val throwable = it[1] as Throwable
+
+            notificationAdapter.restoreNotification(position)
 
             Toast.makeText(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT)
                 .show()
         }
 
         ItemTouchHelper(SwipeTouchHelper {
-//            viewModel.markNotificationAsRead(
-//                it,
-//                notificationAdapter.currentList[it]
-//            )
+            val threadId = notificationAdapter.markNotificationAsRead(it)
+            threadId?.let { it1 -> viewModel.markNotificationAsRead(it, it1) }
         }).attachToRecyclerView(binding.rvNotification)
 
         init()

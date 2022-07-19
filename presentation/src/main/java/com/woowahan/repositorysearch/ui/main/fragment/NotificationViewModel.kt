@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.woowahan.domain.model.Notification
 import com.woowahan.domain.model.Result
 import com.woowahan.domain.notificationUseCase.GetNotificationsUseCase
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
@@ -41,15 +43,16 @@ class NotificationViewModel @Inject constructor(
         }
     }
 
-    fun markNotificationAsRead(adapterPosition: Int, noti: Notification) {
-        markNotificationAsReadUseCase.execute(noti.threadId).onEach { result ->
-            when (result) {
-                is Result.Success -> {}
-                is Result.Failure -> {
-                    _markFailed.postValue(listOf(adapterPosition, noti, result.throwable))
+    fun markNotificationAsRead(adapterPosition: Int, threadId: String) {
+        markNotificationAsReadUseCase.execute(threadId)
+            .onEach { result ->
+                when (result) {
+                    is Result.Success -> {}
+                    is Result.Failure -> {
+                        _markFailed.postValue(listOf(adapterPosition, result.throwable))
+                    }
+                    is Result.Loading -> {}
                 }
-                is Result.Loading -> {}
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
     }
 }
