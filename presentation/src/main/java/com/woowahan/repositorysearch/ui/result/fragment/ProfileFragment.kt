@@ -49,10 +49,23 @@ class ProfileFragment : Fragment() {
                 binding.ivUserIcon.load(it.avatar)
                 binding.tvLogin.text = it.login
                 binding.tvName.text = it.name
-                binding.tvType.text = it.company
-                binding.tvLocation.text = it.location
-                binding.tvLink.setUnderlineText(it.blog)
-                binding.tvMail.setUnderlineText(it.mail)
+
+                binding.tvType.isVisible = !it.company.isNullOrBlank()
+                it.company?.let { company -> binding.tvType.text = company }
+
+                binding.ivLocation.isVisible = !it.location.isNullOrBlank()
+                binding.tvLocation.isVisible = !it.location.isNullOrBlank()
+                it.location?.let { location -> binding.tvLocation.text = location }
+
+                binding.ivLink.isVisible = !it.blog.isNullOrBlank()
+                binding.tvLink.isVisible = !it.blog.isNullOrBlank()
+                it.blog?.let { blog -> binding.tvLink.setUnderlineText(blog) }
+
+                binding.ivMail.isVisible = !it.mail.isNullOrBlank()
+                binding.tvMail.isVisible = !it.mail.isNullOrBlank()
+                it.mail?.let { mail -> binding.tvMail.setUnderlineText(mail) }
+
+
                 binding.tvFollowers.text = it.followers.toString()
                 binding.tvFollowing.text = it.following.toString()
                 binding.tvRepositories.text = it.repositories.toString()
