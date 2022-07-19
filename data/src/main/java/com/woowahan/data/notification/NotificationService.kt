@@ -10,7 +10,8 @@ import javax.security.auth.Subject
 interface NotificationService {
     @GET("/notifications")
     suspend fun getNotifications(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("per_page") size: Int
     ): Response<List<NotificationData>>
 
     @PATCH("/notifications/threads/{threadId}")

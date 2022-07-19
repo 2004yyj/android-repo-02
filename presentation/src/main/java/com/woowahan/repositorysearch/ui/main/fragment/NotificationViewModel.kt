@@ -37,7 +37,7 @@ class NotificationViewModel @Inject constructor(
 
     fun getNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
-            getNotificationsUseCase.execute().collect { it ->
+            getNotificationsUseCase.execute(10).collect { it ->
                 _notifications.emit(it)
             }
         }

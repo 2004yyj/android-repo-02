@@ -6,6 +6,7 @@ import com.woowahan.domain.model.Notification
 
 class NotificationPagingSource(
     private val notificationDataSourceImpl: NotificationDataSourceImpl,
+    private val size: Int
 ) : PagingSource<Int, Notification>() {
     override fun getRefreshKey(state: PagingState<Int, Notification>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -19,7 +20,7 @@ class NotificationPagingSource(
             val page = params.key ?: 1
 
             try {
-                val notifications = notificationDataSourceImpl.getNotifications(page).map {
+                val notifications = notificationDataSourceImpl.getNotifications(page, size).map {
                     val subject = notificationDataSourceImpl.getSubject(
                         it.organization,
                         it.repository,

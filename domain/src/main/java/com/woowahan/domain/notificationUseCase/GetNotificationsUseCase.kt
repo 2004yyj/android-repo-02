@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class GetNotificationsUseCase<T>(private val repository: NotificationRepository<T>) {
-    suspend fun execute(): Flow<T> {
-        return repository.getNotifications()
+    suspend fun execute(size: Int): Flow<T> {
+        return repository.getNotifications(size)
     }
 }

@@ -14,13 +14,13 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
 ) : NotificationRepository<PagingData<Notification>> {
-    override suspend fun getNotifications(): Flow<PagingData<Notification>> {
+    override suspend fun getNotifications(size: Int): Flow<PagingData<Notification>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 30,
-                initialLoadSize = 30,
+                pageSize = size,
+                initialLoadSize = size,
                 enablePlaceholders = false
-            ), pagingSourceFactory = { NotificationPagingSource(notificationDataSourceImpl) }
+            ), pagingSourceFactory = { NotificationPagingSource(notificationDataSourceImpl, size) }
         ).flow
     }
 
