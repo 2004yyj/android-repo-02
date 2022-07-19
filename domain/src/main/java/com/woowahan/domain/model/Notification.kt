@@ -12,5 +12,6 @@ data class Notification(
     val subjectType: String,
     val subjectId: String,
     var htmlUrl: String,
-    val threadId: String
+    val threadId: String,
+    var read: Boolean = false
 )

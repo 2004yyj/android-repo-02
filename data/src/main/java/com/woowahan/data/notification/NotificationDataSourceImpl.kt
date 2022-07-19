@@ -7,8 +7,8 @@ import com.woowahan.domain.model.Notification
 
 class NotificationDataSourceImpl(override val service: NotificationService) :
     BaseDataSource<NotificationService>() {
-    suspend fun getNotifications(page: Int): List<Notification> =
-        getData(service.getNotifications(page)).map {
+    suspend fun getNotifications(page: Int, size: Int): List<Notification> =
+        getData(service.getNotifications(page, size)).map {
             it.toModel()
         }
 

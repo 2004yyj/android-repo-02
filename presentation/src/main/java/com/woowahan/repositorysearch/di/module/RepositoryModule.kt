@@ -12,6 +12,7 @@ import com.woowahan.data.search.SearchRepositoryImpl
 import com.woowahan.data.user.UserDataSourceImpl
 import com.woowahan.data.user.UserRepositoryImpl
 import com.woowahan.domain.model.Issue
+import com.woowahan.domain.model.Notification
 import com.woowahan.domain.model.Repository
 import com.woowahan.domain.repository.*
 import dagger.Module
@@ -32,7 +33,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     @RetrofitModule.typeApi
-    fun provideApiNotificationRepository(@RetrofitModule.typeApi notificationDataSourceImpl: NotificationDataSourceImpl): NotificationRepository =
+    fun provideApiNotificationRepository(@RetrofitModule.typeApi notificationDataSourceImpl: NotificationDataSourceImpl): NotificationRepository<PagingData<Notification>> =
         NotificationRepositoryImpl(notificationDataSourceImpl)
 
     @Singleton

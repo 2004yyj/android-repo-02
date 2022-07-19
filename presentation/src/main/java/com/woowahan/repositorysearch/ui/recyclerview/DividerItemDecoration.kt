@@ -1,4 +1,4 @@
-package com.woowahan.repositorysearch.ui.main
+package com.woowahan.repositorysearch.ui.recyclerview
 
 import android.graphics.Canvas
 import android.graphics.Paint
