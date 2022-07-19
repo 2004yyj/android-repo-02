@@ -33,5 +33,15 @@
             android:text="GitHub 로그인"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <include
+            android:id="@+id/layout_load_error_checker"
+            layout="@layout/layout_load_error_checker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

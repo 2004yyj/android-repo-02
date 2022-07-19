@@ -43,7 +43,8 @@ class LoginActivity : AppCompatActivity() {
                     .appendQueryParameter("client_id", BuildConfig.CLIENT_ID)
                     .appendQueryParameter("scope", "repo,notifications,user")
                     .build()
-                
+
+                showLoading(true)
                 CustomTabsIntent.Builder().build().also {
                     it.launchUrl(this, loginUrl)
                 }
@@ -53,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.isFailure.collect { throwable ->
+                showLoading(false)
                 Toast.makeText(
                     this@LoginActivity,
                     "Failed To Login: Caused By ${throwable.message}",
@@ -63,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.token.collect { result ->
+                showLoading(false)
                 GitToken.token = result.token
                 GitToken.scope = result.scope
 
@@ -70,6 +73,13 @@ class LoginActivity : AppCompatActivity() {
                 mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(mainIntent)
             }
+        }
+    }
+
+    private fun showLoading(isShow: Boolean) {
+        with(binding.layoutLoadErrorChecker) {
+            root.isVisible = isShow
+            pbReload.isVisible = isShow
         }
     }
 
