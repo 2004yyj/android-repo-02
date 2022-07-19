@@ -22,15 +22,15 @@
             android:id="@+id/spi_filter"
             android:layout_width="160dp"
             android:layout_height="match_parent"
-            android:overlapAnchor="false"
+            android:background="@android:color/transparent"
             android:dropDownWidth="160dp"
             android:dropDownVerticalOffset="10dp"
-            android:popupBackground="@drawable/bg_filterbar_enabled"
             android:gravity="end"
-            android:background="@android:color/transparent"
+            android:overlapAnchor="false"
+            android:popupBackground="@drawable/bg_filterbar_enabled"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_filter"
@@ -45,17 +45,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/ko_pub_dotum"
             android:text="@string/filter"
-            android:textStyle="normal"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:fontFamily="@font/ko_pub_dotum"
-            android:layout_marginStart="10dp"
+            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_filter"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/layout_load_error_checker"
+        layout="@layout/layout_load_error_checker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_issue"
