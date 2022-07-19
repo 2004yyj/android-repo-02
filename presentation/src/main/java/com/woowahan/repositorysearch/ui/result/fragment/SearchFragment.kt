@@ -11,19 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
-import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
+import com.woowahan.repositorysearch.ui.recyclerview.DividerItemDecoration
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentSearchBinding
 import com.woowahan.repositorysearch.ui.adapter.RecyclerViewStateAdapter
 import com.woowahan.repositorysearch.ui.adapter.SearchResultAdapter
-import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.cancel
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -65,11 +62,13 @@ class SearchFragment : Fragment() {
         ibtClear.setOnClickListener {
             edtSearch.setText("")
         }
-        rvSearch.addItemDecoration(DividerItemDecoration(
+        rvSearch.addItemDecoration(
+            DividerItemDecoration(
             Dp2Px.convert(requireContext(), 1F),
             Dp2Px.convert(requireContext(), 24F),
             ContextCompat.getColor(requireContext(), R.color.navy)
-        ))
+        )
+        )
         rvSearch.adapter = searchAdapter.withLoadStateFooter(
             RecyclerViewStateAdapter {
                 searchAdapter.retry()

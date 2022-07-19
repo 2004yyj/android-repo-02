@@ -1,7 +1,6 @@
 package com.woowahan.repositorysearch.ui.main.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +9,13 @@ import android.widget.AdapterView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentIssueBinding
 import com.woowahan.repositorysearch.ui.adapter.FilterAdapter
 import com.woowahan.repositorysearch.ui.adapter.IssueAdapter
-import com.woowahan.repositorysearch.ui.main.DividerItemDecoration
+import com.woowahan.repositorysearch.ui.recyclerview.DividerItemDecoration
 import com.woowahan.repositorysearch.util.Dp2Px
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class IssueFragment : Fragment() {
