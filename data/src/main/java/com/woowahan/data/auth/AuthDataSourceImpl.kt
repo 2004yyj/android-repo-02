@@ -2,6 +2,7 @@ package com.woowahan.data.auth
 
 import com.woowahan.data.base.BaseDataSource
 import com.woowahan.data.entity.GitHubTokenData
+import com.woowahan.data.entity.toModel
 import retrofit2.Response
 
 class AuthDataSourceImpl(override val service: AuthService) : BaseDataSource<AuthService>() {
@@ -9,5 +10,5 @@ class AuthDataSourceImpl(override val service: AuthService) : BaseDataSource<Aut
         clientId: String,
         clientSecret: String,
         code: String
-    ): GitHubTokenData = getData(service.getAccessToken(clientId, clientSecret, code))
+    ) = getData(service.getAccessToken(clientId, clientSecret, code)).toModel()
 }

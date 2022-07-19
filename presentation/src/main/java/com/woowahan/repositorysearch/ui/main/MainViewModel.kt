@@ -26,7 +26,6 @@ class MainViewModel @Inject constructor(
 
     fun getUser() {
         val user = getUserUseCase.execute()
-        Log.d("MainViewModel", "getUser: ")
         user.onEach { result ->
             when(result) {
                 is Result.Success -> {

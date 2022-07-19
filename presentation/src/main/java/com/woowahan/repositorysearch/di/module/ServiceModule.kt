@@ -1,14 +1,15 @@
 package com.woowahan.repositorysearch.di.module
 
 import com.woowahan.data.auth.AuthService
+import com.woowahan.data.issue.IssueService
 import com.woowahan.data.notification.NotificationService
+import com.woowahan.data.search.SearchService
 import com.woowahan.data.user.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -17,15 +18,15 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    @RetrofitModule.typeAuth
-    fun provideAuthService(@RetrofitModule.typeAuth retrofit: Retrofit): AuthService {
+    @RetrofitModule.typeGitHub
+    fun provideAuthService(@RetrofitModule.typeGitHub retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
     @Provides
     @Singleton
     @RetrofitModule.typeApi
-    fun provideNotificationService(@RetrofitModule.typeApi retrofit: Retrofit): NotificationService {
+    fun provideApiNotificationService(@RetrofitModule.typeApi retrofit: Retrofit): NotificationService {
         return retrofit.create(NotificationService::class.java)
     }
 
@@ -34,5 +35,19 @@ object ServiceModule {
     @RetrofitModule.typeApi
     fun provideUserService(@RetrofitModule.typeApi retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @RetrofitModule.typeApi
+    fun provideIssueService(@RetrofitModule.typeApi retrofit: Retrofit): IssueService {
+        return retrofit.create(IssueService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @RetrofitModule.typeApi
+    fun provideSearchService(@RetrofitModule.typeApi retrofit: Retrofit): SearchService {
+        return retrofit.create(SearchService::class.java)
     }
 }

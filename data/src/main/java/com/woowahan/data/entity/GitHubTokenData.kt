@@ -2,7 +2,6 @@ package com.woowahan.data.entity
 
 import com.google.gson.annotations.SerializedName
 import com.woowahan.domain.model.GitHubToken
-import com.woowahan.domain.model.GitToken
 
 data class GitHubTokenData(
     @SerializedName("access_token")

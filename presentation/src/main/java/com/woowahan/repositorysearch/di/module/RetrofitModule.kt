@@ -1,9 +1,11 @@
 package com.woowahan.repositorysearch.di.module
 
+import android.content.Context
 import com.woowahan.repositorysearch.util.ApiHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,7 +19,7 @@ import javax.inject.Singleton
 object RetrofitModule {
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
-    annotation class typeAuth
+    annotation class typeGitHub
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -25,8 +27,8 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @typeAuth
-    fun provideAuthOkHttpClient(): OkHttpClient {
+    @typeGitHub
+    fun provideGitHubOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
@@ -35,17 +37,17 @@ object RetrofitModule {
     @Provides
     @Singleton
     @typeApi
-    fun provideApiOkHttpClient(): OkHttpClient {
+    fun provideApiOkHttpClient(@ApplicationContext appContext: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(ApiHeaderInterceptor())
+            .addInterceptor(ApiHeaderInterceptor(appContext))
             .build()
     }
 
     @Provides
     @Singleton
-    @typeAuth
-    fun provideAuthRetrofit(@typeAuth okHttpClient: OkHttpClient): Retrofit {
+    @typeGitHub
+    fun provideAuthRetrofit(@typeGitHub okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://github.com")
             .addConverterFactory(GsonConverterFactory.create())

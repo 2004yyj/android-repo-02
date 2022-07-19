@@ -1,25 +1,39 @@
 package com.woowahan.data.notification
 
-import com.woowahan.data.auth.AuthRepositoryImpl
-import com.woowahan.data.entity.NotificationData
-import com.woowahan.data.entity.toModel
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.woowahan.data.search.SearchPagingSource
+import com.woowahan.domain.model.Message
 import com.woowahan.domain.model.Notification
+import com.woowahan.domain.model.Subject
 import com.woowahan.domain.repository.NotificationRepository
-import java.util.*
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationDataSourceImpl: NotificationDataSourceImpl
-) : NotificationRepository {
-    override suspend fun getNotifications(page: Int): List<Notification> {
-        val notificationDatas = notificationDataSourceImpl.getNotifications(page)
-        val result = ArrayList<Notification>()
+) : NotificationRepository<PagingData<Notification>> {
+    override suspend fun getNotifications(size: Int): Flow<PagingData<Notification>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = size,
+                initialLoadSize = size,
+                enablePlaceholders = false
+            ), pagingSourceFactory = { NotificationPagingSource(notificationDataSourceImpl, size) }
+        ).flow
+    }
 
-        for (notificationData in notificationDatas) {
-            result.add(notificationData.toModel())
-        }
+    override suspend fun markNotificationAsRead(threadId: String): String {
+        return notificationDataSourceImpl.markNotificationAsRead(threadId)
+    }
 
-        return result
+    override suspend fun getSubject(
+        organization: String,
+        repository: String,
+        type: String,
+        id: String
+    ): Subject {
+        return notificationDataSourceImpl.getSubject(organization, repository, type, id)
     }
 }

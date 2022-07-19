@@ -1,5 +1,7 @@
 package com.woowahan.data.base
 
+import com.google.gson.Gson
+import com.woowahan.domain.model.Message
 import retrofit2.Response
 
 abstract class BaseDataSource<SV> {
@@ -17,7 +19,8 @@ abstract class BaseDataSource<SV> {
         return if (response.isSuccessful) {
             response
         } else {
-            throw Throwable(response.message())
+            val errorBody = Gson().fromJson(response.errorBody()?.charStream(), Message::class.java)
+            throw Throwable(errorBody.message)
         }
     }
 

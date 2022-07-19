@@ -1,18 +1,21 @@
 package com.woowahan.repositorysearch.util
 
-import com.woowahan.domain.model.GitToken
+import android.content.Context
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import retrofit2.http.Headers
 
-class ApiHeaderInterceptor : Interceptor {
+class ApiHeaderInterceptor constructor(
+    private val appContext: Context
+) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
         val newRequest = request().newBuilder()
-        if (GitToken.token.isNotEmpty()) {
+        val build = runBlocking {
+            val token = appContext.dataStore.get(tokenPrefsKey, "")
             newRequest.addHeader("Accept", "application/vnd.github+json")
-            newRequest.addHeader("Authorization", GitToken.token)
+            newRequest.addHeader("Authorization", token)
+            newRequest.build()
         }
-        val build = newRequest.build()
 
         return proceed(build)
     }
