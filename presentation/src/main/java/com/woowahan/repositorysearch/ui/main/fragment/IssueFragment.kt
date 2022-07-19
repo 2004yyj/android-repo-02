@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentIssueBinding
 import com.woowahan.repositorysearch.ui.adapter.FilterAdapter
