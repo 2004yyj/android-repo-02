@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentNotificationBinding
@@ -81,6 +83,26 @@ class NotificationFragment : Fragment() {
                 notificationAdapter.retry()
             }
         )
+
+
+        layoutLoadErrorChecker.root.visibility = View.VISIBLE
+        layoutLoadErrorChecker.btnErrorRetry.setOnClickListener {
+            notificationAdapter.retry()
+        }
+        notificationAdapter.addLoadStateListener {
+            with(layoutLoadErrorChecker) {
+                pbReload.isVisible = it.refresh is LoadState.Loading
+                btnErrorRetry.isVisible = it.refresh is LoadState.Error
+                tvErrorCause.isVisible = it.refresh is LoadState.Error
+                if (it.refresh is LoadState.Error) {
+                    tvErrorCause.text =
+                        context?.getString(
+                            R.string.error,
+                            (it.refresh as LoadState.Error).error.message
+                        )
+                }
+            }
+        }
 
         viewModel.getNotifications()
     }
