@@ -18,7 +18,6 @@ import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.FragmentSearchBinding
 import com.woowahan.repositorysearch.ui.adapter.RecyclerViewStateAdapter
 import com.woowahan.repositorysearch.ui.adapter.SearchResultAdapter
-import com.woowahan.repositorysearch.ui.loading.LoadingDialogFragment
 import com.woowahan.repositorysearch.ui.result.ResultActivity
 import com.woowahan.repositorysearch.ui.result.ResultViewModel
 import com.woowahan.repositorysearch.util.Dp2Px
