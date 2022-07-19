@@ -8,10 +8,10 @@ data class UserData(
     val name: String,
     @SerializedName("avatar_url")
     val avatar: String,
-    val company: String,
-    val location: String,
-    val blog: String,
-    val email: String,
+    val company: String?,
+    val location: String?,
+    val blog: String?,
+    val email: String?,
     val followers: Int,
     val following: Int,
     @SerializedName("public_repos")
