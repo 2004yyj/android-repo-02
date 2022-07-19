@@ -10,17 +10,17 @@ import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import com.woowahan.domain.model.GitToken
 import com.woowahan.repositorysearch.BuildConfig
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.ActivityLoginBinding
 import com.woowahan.repositorysearch.ui.main.MainActivity
+import com.woowahan.repositorysearch.util.dataStore
+import com.woowahan.repositorysearch.util.set
+import com.woowahan.repositorysearch.util.tokenPrefsKey
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -66,12 +66,10 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.token.collect { result ->
                 showLoading(false)
-                GitToken.token = result.token
-                GitToken.scope = result.scope
-
+                dataStore.set(tokenPrefsKey, result.token)
                 val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(mainIntent)
+                finish()
             }
         }
     }
