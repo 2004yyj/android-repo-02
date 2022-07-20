@@ -8,6 +8,7 @@ import com.woowahan.domain.searchUseCase.GetSearchResultUseCase
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class SearchViewModel @Inject constructor(
 
     fun getSearchResult(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(700)
             getSearchResultUseCase.execute(query, 10).collect {
                 _repositories.emit(it)
             }
