@@ -82,7 +82,6 @@ class SearchFragment : Fragment() {
         searchAdapter.addLoadStateListener {
             rvSearch.isVisible = it.refresh is LoadState.NotLoading
             with(layoutLoadErrorChecker) {
-                root.isVisible = edtSearch.text.isNotEmpty()
                 pbReload.isVisible = it.refresh is LoadState.Loading
                 btnErrorRetry.isVisible = it.refresh is LoadState.Error
                 tvErrorCause.isVisible = it.refresh is LoadState.Error
@@ -101,18 +100,13 @@ class SearchFragment : Fragment() {
         edtSearch.doAfterTextChanged {
             it?.let {
                 val count = it.length
+                rvSearch.isVisible = false
                 ibtClear.isVisible = count > 0
                 linearRvEmpty.isVisible = count == 0
                 layoutLoadErrorChecker.root.isVisible = count > 0
+                layoutLoadErrorChecker.pbReload.isVisible = count > 0
                 viewModel.getSearchResult(it.toString())
-
-                if (count > 0) {
-                    layoutLoadErrorChecker.pbReload.isVisible = true
-                    edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                } else {
-                    rvSearch.isVisible = false
-                    edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
-                }
+                edtSearch.setCompoundDrawablesWithIntrinsicBounds(if (count > 0) 0 else R.drawable.ic_search, 0, 0, 0)
             }
         }
     }
