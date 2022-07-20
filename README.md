@@ -21,3 +21,6 @@
 |<img src="https://github.com/YM-Byun.png" width="200"/>|<img src="https://github.com/2004yyj.png" width="200"/>
 |:--:|:--:|
 |[변영무](https://github.com/YM-Byun)|[양윤재](https://github.com/2004yyj)|
+
+### 걸린 시간
+7월 11일 ~ 7월 22일 (11일)
