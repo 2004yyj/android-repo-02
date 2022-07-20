@@ -107,6 +107,7 @@ class SearchFragment : Fragment() {
                 viewModel.getSearchResult(it.toString())
 
                 if (count > 0) {
+                    layoutLoadErrorChecker.pbReload.isVisible = true
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 } else {
                     rvSearch.isVisible = false
