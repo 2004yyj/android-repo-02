@@ -32,7 +32,6 @@ class SearchFragment : Fragment() {
     private val searchAdapter: SearchResultAdapter by lazy {
         SearchResultAdapter()
     }
-    private var timer = Timer()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,17 +104,10 @@ class SearchFragment : Fragment() {
                 ibtClear.isVisible = count > 0
                 linearRvEmpty.isVisible = count == 0
                 layoutLoadErrorChecker.root.isVisible = count > 0
+                viewModel.getSearchResult(it.toString())
 
-                timer.cancel()
                 if (count > 0) {
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                    timer = Timer()
-                    timer.schedule(object : TimerTask() {
-                        override fun run() {
-                            viewModel.getSearchResult(it.toString())
-                        }
-
-                    }, 700)
                 } else {
                     rvSearch.isVisible = false
                     edtSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
