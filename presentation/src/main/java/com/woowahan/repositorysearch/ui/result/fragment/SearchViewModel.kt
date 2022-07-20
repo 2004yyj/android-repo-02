@@ -24,9 +24,13 @@ class SearchViewModel @Inject constructor(
 
     fun getSearchResult(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(700)
-            getSearchResultUseCase.execute(query, 10).collect {
-                _repositories.emit(it)
+            if (query.isNotEmpty()) {
+                delay(700)
+                getSearchResultUseCase.execute(query, 10).collect {
+                    _repositories.emit(it)
+                }
+            } else {
+                _repositories.emit(PagingData.empty())
             }
         }
     }
