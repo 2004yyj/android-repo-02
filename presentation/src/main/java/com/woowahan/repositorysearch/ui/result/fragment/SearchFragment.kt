@@ -1,9 +1,11 @@
 package com.woowahan.repositorysearch.ui.result.fragment
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -31,6 +33,10 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private val searchAdapter: SearchResultAdapter by lazy {
         SearchResultAdapter()
+    }
+
+    private val keyboard: InputMethodManager by lazy {
+        requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     override fun onCreateView(
@@ -63,6 +69,7 @@ class SearchFragment : Fragment() {
         ibtClear.setOnClickListener {
             edtSearch.setText("")
         }
+
         rvSearch.addItemDecoration(
             DividerItemDecoration(
                 Dp2Px.convert(requireContext(), 1F),
@@ -70,11 +77,13 @@ class SearchFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.navy)
             )
         )
+
         rvSearch.adapter = searchAdapter.withLoadStateFooter(
             RecyclerViewStateAdapter {
                 searchAdapter.retry()
             }
         )
+
         layoutLoadErrorChecker.btnErrorRetry.setOnClickListener {
             searchAdapter.retry()
         }
@@ -94,6 +103,9 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+
+        edtSearch.requestFocus()
+        keyboard.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun initEditText() = with(binding) {
@@ -105,7 +117,12 @@ class SearchFragment : Fragment() {
                 linearRvEmpty.isVisible = count == 0
                 layoutLoadErrorChecker.pbReload.isVisible = count > 0
                 viewModel.getSearchResult(it.toString())
-                edtSearch.setCompoundDrawablesWithIntrinsicBounds(if (count > 0) 0 else R.drawable.ic_search, 0, 0, 0)
+                edtSearch.setCompoundDrawablesWithIntrinsicBounds(
+                    if (count > 0) 0 else R.drawable.ic_search,
+                    0,
+                    0,
+                    0
+                )
             }
         }
     }
