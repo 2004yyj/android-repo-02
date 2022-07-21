@@ -45,48 +45,22 @@ class SearchFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        binding.vm = viewModel
+        binding.recyclerAdapter = searchAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setPageName(ResultActivity.PageName.Search.javaClass.simpleName)
-        initEditText()
         init()
-        initFlow()
-    }
-
-    private fun initFlow() = with(binding) {
-        lifecycleScope.launchWhenStarted {
-            viewModel.repositories.collect {
-                searchAdapter.submitData(lifecycle, it)
-                rvSearch.scrollToPosition(0)
-            }
-        }
+        initEditText()
     }
 
     private fun init() = with(binding) {
-        ibtClear.setOnClickListener {
-            edtSearch.setText("")
-        }
-
-        rvSearch.addItemDecoration(
-            DividerItemDecoration(
-                Dp2Px.convert(requireContext(), 1F),
-                Dp2Px.convert(requireContext(), 24F),
-                ContextCompat.getColor(requireContext(), R.color.navy)
-            )
-        )
-
-        rvSearch.adapter = searchAdapter.withLoadStateFooter(
-            RecyclerViewStateAdapter {
-                searchAdapter.retry()
-            }
-        )
-
-        layoutLoadErrorChecker.btnErrorRetry.setOnClickListener {
-            searchAdapter.retry()
-        }
+        edtSearch.requestFocus()
+        keyboard.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
 
         searchAdapter.addLoadStateListener {
             rvSearch.isVisible = it.refresh is LoadState.NotLoading && edtSearch.text.isNotEmpty()
@@ -103,9 +77,6 @@ class SearchFragment : Fragment() {
                 }
             }
         }
-
-        edtSearch.requestFocus()
-        keyboard.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun initEditText() = with(binding) {
