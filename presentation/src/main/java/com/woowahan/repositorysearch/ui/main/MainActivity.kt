@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -59,6 +60,16 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launchWhenStarted {
                 user.collect {
                     ivUserIcon.load(it.avatar)
+                }
+            }
+
+            lifecycleScope.launchWhenStarted {
+                isFailure.collect { throwable ->
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Failed to get profile: Caused By ${throwable.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
