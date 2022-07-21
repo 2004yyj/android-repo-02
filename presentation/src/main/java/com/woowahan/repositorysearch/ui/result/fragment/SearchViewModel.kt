@@ -8,6 +8,7 @@ import com.woowahan.domain.searchUseCase.GetSearchResultUseCase
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,8 +23,11 @@ class SearchViewModel @Inject constructor(
     private val _repositories = MutableSharedFlow<PagingData<Repository>>()
     val repositories = _repositories.asSharedFlow()
 
+    private var searchJob: Job? = null
+
     fun getSearchResult(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
             if (query.isNotEmpty()) {
                 delay(700)
                 getSearchResultUseCase.execute(query, 10).collect {
