@@ -8,11 +8,8 @@ import com.woowahan.domain.model.GitHubToken
 import com.woowahan.repositorysearch.BuildConfig
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import com.woowahan.domain.model.Result
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,8 +26,8 @@ class LoginViewModel @Inject constructor(
     private val _isFailure = MutableSharedFlow<Throwable>()
     val isFailure = _isFailure.asSharedFlow()
 
-    private val _isLoading = MutableSharedFlow<Boolean>()
-    val isLoading = _isLoading.asSharedFlow()
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
 
     fun onClickLogin() {
         viewModelScope.launch {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="vm"
             type="com.woowahan.repositorysearch.ui.login.LoginViewModel" />
@@ -35,6 +36,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginBottom="128dp"
+            android:clickable="@{!vm.isLoading}"
             android:background="@drawable/box_large_button"
             android:text="GitHub 로그인"
             android:textAllCaps="false"
@@ -46,6 +48,7 @@
             layout="@layout/layout_load_error_checker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:progressBarVisibility="@{vm.isLoading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

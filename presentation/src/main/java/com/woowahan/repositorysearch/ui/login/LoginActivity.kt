@@ -63,16 +63,6 @@ class LoginActivity : AppCompatActivity() {
                 finish()
             }
         }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.isLoading.collect {
-                binding.btnLogin.isClickable = !it
-                with(binding.layoutLoadErrorChecker) {
-                    root.isVisible = it
-                    pbReload.isVisible = it
-                }
-            }
-        }
     }
 
     override fun onNewIntent(intent: Intent?) {
