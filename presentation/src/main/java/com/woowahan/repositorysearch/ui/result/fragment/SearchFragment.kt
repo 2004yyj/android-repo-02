@@ -2,6 +2,8 @@ package com.woowahan.repositorysearch.ui.result.fragment
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +62,9 @@ class SearchFragment : Fragment() {
 
     private fun init() = with(binding) {
         edtSearch.requestFocus()
-        keyboard.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
+        Handler(Looper.myLooper()!!).postDelayed({
+            keyboard.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
+        }, 100)
 
         searchAdapter.addLoadStateListener {
             rvSearch.isVisible = it.refresh is LoadState.NotLoading && edtSearch.text.isNotEmpty()
