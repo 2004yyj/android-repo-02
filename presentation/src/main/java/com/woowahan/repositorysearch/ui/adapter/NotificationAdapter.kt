@@ -19,6 +19,12 @@ class NotificationAdapter :
 
         fun bind(notification: Notification) {
             binding.notification = notification
+
+            binding.root.layoutParams = if (!notification.read) {
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            } else {
+                ViewGroup.LayoutParams(0, 0)
+            }
         }
     }
 
