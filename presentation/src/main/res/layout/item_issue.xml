@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.woowahan.repositorysearch.R"/>
         <import type="com.woowahan.repositorysearch.util.TimeFormatter"/>
         <variable
             name="issue"
@@ -20,7 +21,7 @@
             android:id="@+id/iv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:loadImage='@{issue.state == "open" ? @drawable/ic_issue_open : @drawable/ic_issue_closed}'
+            android:issueCheck="@{issue.state}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_issue_open" />
