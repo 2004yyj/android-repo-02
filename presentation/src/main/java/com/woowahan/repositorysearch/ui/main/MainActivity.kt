@@ -1,11 +1,15 @@
 package com.woowahan.repositorysearch.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,23 +29,19 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val tabText = arrayOf("Issue", "Notification")
-
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private lateinit var binding: ActivityMainBinding
     private lateinit var ivUserIcon: ImageView
     private lateinit var userIconActionView: View
     private lateinit var searchMenu: MenuItem
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
 
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         init()
         initFlow()
-        initTabLayout()
         initListener()
     }
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         userIconActionView = toolbar.menu.findItem(R.id.user_icon).actionView
         searchMenu = toolbar.menu.findItem(R.id.search)
         ivUserIcon = userIconActionView.findViewById(R.id.iv_user_icon)
-        viewPagerAdapter = ViewPagerAdapter(
+        viewPager.adapter = ViewPagerAdapter(
             this@MainActivity,
             listOf(IssueFragment(), NotificationFragment())
         )
@@ -64,14 +64,17 @@ class MainActivity : AppCompatActivity() {
                     ivUserIcon.load(it.avatar)
                 }
             }
-        }
-    }
 
-    private fun initTabLayout() = with(binding) {
-        viewPager.adapter = viewPagerAdapter
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabText[position]
-        }.attach()
+            lifecycleScope.launchWhenStarted {
+                isFailure.collect { throwable ->
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Failed to get profile: Caused By ${throwable.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -92,5 +95,11 @@ class MainActivity : AppCompatActivity() {
             dataStore.set(tokenPrefsKey, "")
         }
         super.onDestroy()
+    }
+
+    companion object {
+        fun getIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
     }
 }

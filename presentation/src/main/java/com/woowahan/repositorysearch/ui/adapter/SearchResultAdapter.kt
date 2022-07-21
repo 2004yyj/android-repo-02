@@ -2,16 +2,13 @@ package com.woowahan.repositorysearch.ui.adapter
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.woowahan.domain.model.Repository
 import com.woowahan.repositorysearch.databinding.ItemSearchBinding
-import com.woowahan.repositorysearch.util.ColorRand
-import com.woowahan.repositorysearch.util.StarFormatter
+import com.woowahan.repositorysearch.util.ColorCreator
 
 class SearchResultAdapter :
     PagingDataAdapter<Repository, SearchResultAdapter.ItemSearchViewHolder>(diffUtil) {
@@ -20,31 +17,14 @@ class SearchResultAdapter :
 
     inner class ItemSearchViewHolder(private val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Repository) = with(binding) {
-            layoutUserIcon.ivUserIcon.load(item.avatarUrl)
-            tvUsername.text = item.login
-            tvRepoTitle.text = item.name
-            if (item.description == null) {
-                tvDescription.visibility = View.GONE
-            } else {
-                tvDescription.visibility = View.VISIBLE
-                tvDescription.text = item.description
-            }
-            tvStarred.text = StarFormatter.convert(item.starred)
-
-            if (item.language != null) {
-                tvLanguage.text = item.language
-                if (!colorMap.containsKey(item.language))
-                    colorMap[item.language!!] = ColorRand()
-                cvLanguage.setCardBackgroundColor(colorMap[item.language!!]?.let {
+        fun bind(repository: Repository) = with(binding) {
+            binding.repository = repository
+            if (repository.language != null) {
+                if (!colorMap.containsKey(repository.language))
+                    colorMap[repository.language!!] = ColorCreator.create()
+                cvLanguage.setCardBackgroundColor(colorMap[repository.language!!]?.let {
                     ColorStateList.valueOf(it)
                 })
-
-                tvLanguage.visibility = View.VISIBLE
-                cvLanguage.visibility = View.VISIBLE
-            } else {
-                tvLanguage.visibility = View.GONE
-                cvLanguage.visibility = View.GONE
             }
         }
     }

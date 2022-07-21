@@ -18,12 +18,17 @@ import javax.inject.Inject
 class IssueViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getIssueUseCase: GetIssueUseCase<PagingData<Issue>>
 ): ViewModel() {
+    private val _issue = MutableStateFlow<PagingData<Issue>>(PagingData.empty())
+    val issue = _issue.asStateFlow()
 
-    private val _issue = MutableSharedFlow<PagingData<Issue>>()
-    val issue = _issue.asSharedFlow()
-
-    fun getIssues(state: String = "open") {
+    fun getIssues(query: String) {
         viewModelScope.launch {
+            val state = when(query) {
+                "Opened" -> "open"
+                "Closed" -> "closed"
+                "All" -> "all"
+                else -> "all"
+            }
             getIssueUseCase.execute(10, state).collect {
                 _issue.emit(it)
             }

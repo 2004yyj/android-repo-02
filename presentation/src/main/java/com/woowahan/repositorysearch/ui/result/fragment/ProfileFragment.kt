@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -28,55 +29,33 @@ class ProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater)
+        binding.vm = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setPageName(ResultActivity.PageName.Profile.javaClass.simpleName)
-
-        init()
-        initFlow()
-    }
-
-    private fun init() {
         viewModel.getUser()
+
+        initFlow()
     }
 
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel.user.collect {
-                binding.ivUserIcon.load(it.avatar)
-                binding.tvLogin.text = it.login
-                binding.tvName.text = it.name
-
-                binding.tvType.isVisible = !it.company.isNullOrBlank()
-                it.company?.let { company -> binding.tvType.text = company }
-
-                binding.ivLocation.isVisible = !it.location.isNullOrBlank()
-                binding.tvLocation.isVisible = !it.location.isNullOrBlank()
-                it.location?.let { location -> binding.tvLocation.text = location }
-
-                binding.ivLink.isVisible = !it.blog.isNullOrBlank()
-                binding.tvLink.isVisible = !it.blog.isNullOrBlank()
-                it.blog?.let { blog -> binding.tvLink.setUnderlineText(blog) }
-
-                binding.ivMail.isVisible = !it.mail.isNullOrBlank()
-                binding.tvMail.isVisible = !it.mail.isNullOrBlank()
-                it.mail?.let { mail -> binding.tvMail.setUnderlineText(mail) }
-
-
-                binding.tvFollowers.text = it.followers.toString()
-                binding.tvFollowing.text = it.following.toString()
-                binding.tvRepositories.text = it.repositories.toString()
-                binding.tvStarred.text = it.starredSize.toString()
+                binding.user = it
             }
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.isLoading.collect { loading ->
-                binding.pbLoading.isVisible = loading
-                binding.constraintProfile.isVisible = !loading
+            viewModel.isFailure.collect { throwable ->
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to get profile: Caused By ${throwable.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

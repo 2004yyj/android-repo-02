@@ -26,35 +26,27 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val viewModel by viewModels<LoginViewModel>()
-    private var lastClickTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-
+        binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        binding.btnLogin.setOnClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime > 300) {
-                val loginUrl = Uri.Builder().scheme("https").authority("github.com")
-                    .appendPath("login")
-                    .appendPath("oauth")
-                    .appendPath("authorize")
-                    .appendQueryParameter("client_id", BuildConfig.CLIENT_ID)
-                    .appendQueryParameter("scope", "repo,notifications,user")
-                    .build()
+        initFlow()
+    }
 
-                showLoading(true)
+    private fun initFlow() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.login.collect { loginUri ->
                 CustomTabsIntent.Builder().build().also {
-                    it.launchUrl(this, loginUrl)
+                    it.launchUrl(this@LoginActivity, loginUri)
                 }
             }
-            lastClickTime = SystemClock.elapsedRealtime()
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.isFailure.collect { throwable ->
-                showLoading(false)
                 Toast.makeText(
                     this@LoginActivity,
                     "Failed To Login: Caused By ${throwable.message}",
@@ -65,19 +57,11 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.token.collect { result ->
-                showLoading(false)
                 dataStore.set(tokenPrefsKey, result.token)
-                val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(mainIntent)
+                val intent = MainActivity.getIntent(this@LoginActivity)
+                startActivity(intent)
                 finish()
             }
-        }
-    }
-
-    private fun showLoading(isShow: Boolean) {
-        with(binding.layoutLoadErrorChecker) {
-            root.isVisible = isShow
-            pbReload.isVisible = isShow
         }
     }
 

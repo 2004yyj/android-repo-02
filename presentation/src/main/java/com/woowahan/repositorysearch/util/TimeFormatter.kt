@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object TimeFormatter {
+    @JvmStatic
     fun toRelativeTime(src: String): String {
         val srcFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val datetime = srcFormat.parse(src)

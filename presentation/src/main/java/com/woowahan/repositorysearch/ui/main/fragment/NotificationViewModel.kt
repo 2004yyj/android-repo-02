@@ -15,10 +15,7 @@ import com.woowahan.domain.notificationUseCase.MarkNotificationAsReadUseCase
 import com.woowahan.repositorysearch.di.module.RetrofitModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.concurrent.thread
@@ -28,17 +25,16 @@ class NotificationViewModel @Inject constructor(
     @RetrofitModule.typeApi private val getNotificationsUseCase: GetNotificationsUseCase<PagingData<Notification>>,
     @RetrofitModule.typeApi private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase<PagingData<Notification>>
 ) : ViewModel() {
-    private val _notifications = MutableSharedFlow<PagingData<Notification>>()
-    val notifications = _notifications.asSharedFlow()
+    private val _notification = MutableStateFlow<PagingData<Notification>>(PagingData.empty())
+    val notification = _notification.asStateFlow()
 
-    private var _markFailed = MutableLiveData<List<Any>>()
-    val markFailed: LiveData<List<Any>>
-        get() = _markFailed
+    private val _isMarkFailed = MutableSharedFlow<Pair<Int, Throwable>>()
+    val isMarkFailed = _isMarkFailed.asSharedFlow()
 
     fun getNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
             getNotificationsUseCase.execute(10).collect { it ->
-                _notifications.emit(it)
+                _notification.emit(it)
             }
         }
     }
@@ -49,7 +45,7 @@ class NotificationViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {}
                     is Result.Failure -> {
-                        _markFailed.postValue(listOf(adapterPosition, result.throwable))
+                        _isMarkFailed.emit(Pair(adapterPosition, result.throwable))
                     }
                     is Result.Loading -> {}
                 }

@@ -17,23 +17,8 @@ class NotificationAdapter :
     inner class NotificationViewHolder(private val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(notification: Notification) = with(binding) {
-            if (!notification.read) {
-                tvNotificationTitle.text = notification.title
-                tvCommentCnt.text = notification.commentCnt.toString()
-                tvRecentUpdate.text = TimeFormatter.toRelativeTime(notification.lastUpdate)
-                tvRepositoryName.text = notification.repository
-                layoutUserIcon.ivUserIcon.load(notification.profileUrl)
-
-                binding.root.visibility = View.VISIBLE
-                binding.root.layoutParams = RecyclerView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            } else {
-                binding.root.visibility = View.GONE
-                binding.root.layoutParams = RecyclerView.LayoutParams(0, 0)
-            }
+        fun bind(notification: Notification) {
+            binding.notification = notification
         }
     }
 

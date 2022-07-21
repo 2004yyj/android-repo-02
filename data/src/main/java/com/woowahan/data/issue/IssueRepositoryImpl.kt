@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.woowahan.domain.model.Issue
 import com.woowahan.domain.repository.IssueRepository
 import kotlinx.coroutines.flow.Flow

@@ -1,9 +1,13 @@
 package com.woowahan.repositorysearch.ui.result.fragment
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -33,51 +37,34 @@ class SearchFragment : Fragment() {
         SearchResultAdapter()
     }
 
+    private val keyboard: InputMethodManager by lazy {
+        requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        binding.vm = viewModel
+        binding.recyclerAdapter = searchAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setPageName(ResultActivity.PageName.Search.javaClass.simpleName)
-        initEditText()
         init()
-        initFlow()
-    }
-
-    private fun initFlow() = with(binding) {
-        lifecycleScope.launchWhenStarted {
-            viewModel.repositories.collect {
-                searchAdapter.submitData(lifecycle, it)
-                rvSearch.scrollToPosition(0)
-            }
-        }
+        initEditText()
     }
 
     private fun init() = with(binding) {
-        ibtClear.setOnClickListener {
-            edtSearch.setText("")
-        }
-        rvSearch.addItemDecoration(
-            DividerItemDecoration(
-                Dp2Px.convert(requireContext(), 1F),
-                Dp2Px.convert(requireContext(), 24F),
-                ContextCompat.getColor(requireContext(), R.color.navy)
-            )
-        )
-        rvSearch.adapter = searchAdapter.withLoadStateFooter(
-            RecyclerViewStateAdapter {
-                searchAdapter.retry()
-            }
-        )
-        layoutLoadErrorChecker.btnErrorRetry.setOnClickListener {
-            searchAdapter.retry()
-        }
+        edtSearch.requestFocus()
+        Handler(Looper.myLooper()!!).postDelayed({
+            keyboard.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
+        }, 100)
 
         searchAdapter.addLoadStateListener {
             rvSearch.isVisible = it.refresh is LoadState.NotLoading && edtSearch.text.isNotEmpty()
@@ -105,7 +92,12 @@ class SearchFragment : Fragment() {
                 linearRvEmpty.isVisible = count == 0
                 layoutLoadErrorChecker.pbReload.isVisible = count > 0
                 viewModel.getSearchResult(it.toString())
-                edtSearch.setCompoundDrawablesWithIntrinsicBounds(if (count > 0) 0 else R.drawable.ic_search, 0, 0, 0)
+                edtSearch.setCompoundDrawablesWithIntrinsicBounds(
+                    if (count > 0) 0 else R.drawable.ic_search,
+                    0,
+                    0,
+                    0
+                )
             }
         }
     }
