@@ -8,14 +8,16 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
+import androidx.annotation.ArrayRes
 import com.woowahan.repositorysearch.R
 import com.woowahan.repositorysearch.databinding.SpinnerFilterDropdownBinding
 import com.woowahan.repositorysearch.databinding.SpinnerFilterTopBinding
 
 class FilterAdapter(
     context: Context,
-    filterList: List<String>
-): ArrayAdapter<String>(context, 0, filterList) {
+    @ArrayRes
+    filterListResources: Int
+): ArrayAdapter<String>(context, 0, context.resources.getStringArray(filterListResources)) {
 
     private var checkedItem = 0
 
