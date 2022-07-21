@@ -93,8 +93,8 @@
                 android:textSize="20sp"
                 android:background="@drawable/bg_type"
                 android:padding="5dp"
-                android:visibility="@{user.company == null ? View.GONE : View.VISIBLE}"
-                android:text='@{user.company ?? ""}'
+                android:visibility='@{user.company.length() == 0 ? View.GONE : View.VISIBLE}'
+                android:text="@{user.company}"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintHorizontal_bias="0"
@@ -115,11 +115,10 @@
                     android:id="@+id/view"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
                     android:background="@color/navy"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/iv_location"
@@ -128,7 +127,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/ic_location"
-                    android:visibility="@{user.location == null ? View.GONE : View.VISIBLE}"
+                    android:visibility='@{user.location.length() == 0 ? View.GONE : View.VISIBLE}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view" />
 
@@ -140,8 +139,8 @@
                     android:fontFamily="@font/ko_pub_dotum"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="@{user.location == null ? View.GONE : View.VISIBLE}"
-                    android:text='@{user.location ?? ""}'
+                    android:visibility='@{user.location.length() == 0 ? View.GONE : View.VISIBLE}'
+                    android:text="@{user.location}"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_location"
                     app:layout_constraintStart_toEndOf="@+id/iv_location"
                     app:layout_constraintTop_toTopOf="@+id/iv_location"
@@ -154,7 +153,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_link"
-                    android:visibility="@{user.blog == null ? View.GONE : View.VISIBLE}"
+                    android:visibility='@{user.blog.length() == 0 ? View.GONE : View.VISIBLE}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_location" />
 
@@ -166,8 +165,8 @@
                     android:fontFamily="@font/ko_pub_dotum"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="@{user.blog == null ? View.GONE : View.VISIBLE}"
-                    android:text='@{user.blog ?? ""}'
+                    android:visibility='@{user.blog.length() == 0 ? View.GONE : View.VISIBLE}'
+                    android:text="@{user.blog}"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_link"
                     app:layout_constraintStart_toEndOf="@+id/iv_link"
                     app:layout_constraintTop_toTopOf="@+id/iv_link"
@@ -180,7 +179,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_mail"
-                    android:visibility="@{user.mail == null ? View.GONE : View.VISIBLE}"
+                    android:visibility='@{user.mail.length() == 0 ? View.GONE : View.VISIBLE}'
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_link" />
 
@@ -192,8 +191,8 @@
                     android:fontFamily="@font/ko_pub_dotum"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="@{user.mail == null ? View.GONE : View.VISIBLE}"
-                    android:text='@{user.mail ?? ""}'
+                    android:visibility='@{user.mail.length() == 0 ? View.GONE : View.VISIBLE}'
+                    android:text="@{user.mail}"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_mail"
                     app:layout_constraintStart_toEndOf="@+id/iv_mail"
                     app:layout_constraintTop_toTopOf="@+id/iv_mail"
