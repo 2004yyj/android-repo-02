@@ -16,16 +16,8 @@ class IssueAdapter: PagingDataAdapter<Issue, IssueAdapter.IssueViewHolder>(diffU
     inner class IssueViewHolder(
         private val binding: ItemIssueBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(issue: Issue) = with(binding) {
-            if (issue.state == "open")
-                ivState.load(R.drawable.ic_issue_open)
-            else if (issue.state == "closed")
-                ivState.load(R.drawable.ic_issue_closed)
-
-            tvIssueNumber.text = String.format("#%d", issue.number)
-            tvRepositoryName.text = issue.repository
-            tvIssueTitle.text = issue.title
-            tvUpdatedAt.text = TimeFormatter.toRelativeTime(issue.updatedAt)
+        fun bind(issue: Issue) {
+            binding.issue = issue
         }
     }
 
