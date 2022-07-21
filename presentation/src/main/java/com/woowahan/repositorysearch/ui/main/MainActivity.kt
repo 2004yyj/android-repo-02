@@ -1,5 +1,7 @@
 package com.woowahan.repositorysearch.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -93,5 +95,11 @@ class MainActivity : AppCompatActivity() {
             dataStore.set(tokenPrefsKey, "")
         }
         super.onDestroy()
+    }
+
+    companion object {
+        fun getIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
     }
 }

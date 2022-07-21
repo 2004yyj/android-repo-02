@@ -58,8 +58,7 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.token.collect { result ->
                 dataStore.set(tokenPrefsKey, result.token)
-                val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(mainIntent)
+                MainActivity.getIntent(this@LoginActivity)
                 finish()
             }
         }
