@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.woowahan.domain.issueUseCase.GetIssueUseCase
 import com.woowahan.domain.model.Issue
 import com.woowahan.repositorysearch.di.module.RetrofitModule
@@ -29,7 +30,7 @@ class IssueViewModel @Inject constructor(
                 "All" -> "all"
                 else -> "all"
             }
-            getIssueUseCase.execute(10, state).collect {
+            getIssueUseCase.execute(10, state).cachedIn(viewModelScope).collect {
                 _issue.emit(it)
             }
         }

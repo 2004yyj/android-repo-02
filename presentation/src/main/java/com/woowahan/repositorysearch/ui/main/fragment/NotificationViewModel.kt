@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.woowahan.domain.model.Notification
 import com.woowahan.domain.model.Result
@@ -33,7 +34,7 @@ class NotificationViewModel @Inject constructor(
 
     fun getNotifications() {
         viewModelScope.launch(Dispatchers.IO) {
-            getNotificationsUseCase.execute(10).collect { it ->
+            getNotificationsUseCase.execute(10).cachedIn(viewModelScope).collect {
                 _notification.emit(it)
             }
         }
