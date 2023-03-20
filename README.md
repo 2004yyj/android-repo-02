@@ -5,11 +5,6 @@
 ## 걸린 시간
 7월 11일 ~ 7월 22일 (11일)
 
-## 위키
-* [깃 컨벤션](https://github.com/woowa-techcamp-2022/android-repo-02/wiki)
-* [2주차 구현 결과](https://github.com/woowa-techcamp-2022/android-repo-02/wiki/2주차-구현)
-* [3주차 구현 결과](https://github.com/woowa-techcamp-2022/android-repo-02/wiki/3주차-구현)
-
 ## 기술 스택
 ### Architecture
 * Clean-Architecture
